@@ -1,6 +1,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_mixer.h>
 #include <vector>
 #include <iostream>
 using namespace std;
@@ -21,7 +22,14 @@ SDL_Texture* birdTexture = nullptr;
 SDL_Texture* pipeTexture = nullptr;
 SDL_Texture* groundTexture = nullptr;
 SDL_Texture* playButtonTexture = nullptr;
+
 TTF_Font* font = nullptr;
+
+Mix_Music* bgMusic = nullptr;
+Mix_Chunk* soundPlay = nullptr;
+Mix_Chunk* soundJump = nullptr;
+Mix_Chunk* soundHit = nullptr;
+
 int collisionOffset = 15;
 int score = 0;
 
@@ -68,6 +76,15 @@ void init() {
     if (!font) {
         cerr << "Failed to load font: " << TTF_GetError() << endl;
     }
+    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+    bgMusic = Mix_LoadMUS("play.mp3");       // Nhạc nền khi ấn play
+    soundPlay = Mix_LoadWAV("jump.mp3");     // Khi nhảy
+    soundJump = Mix_LoadWAV("hit.mp3");     // Khi va chạm
+
+    if (!bgMusic || !soundPlay || !soundJump) {
+        cerr << "Failed to load sound: " << Mix_GetError() << endl;
+    }
+
 }
 
 
