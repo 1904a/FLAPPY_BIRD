@@ -249,6 +249,7 @@ CMakeFiles\FLAPPY_BIRD.dir\main.cpp.obj.ddi: \
  C:/msys64/ucrt64/include/SDL2/SDL_image.h \
  C:/msys64/ucrt64/include/SDL2/SDL.h \
  C:/msys64/ucrt64/include/SDL2/SDL_ttf.h \
+ C:/msys64/ucrt64/include/SDL2/SDL_mixer.h \
  C:/msys64/ucrt64/include/c++/14.2.0/vector \
  C:/msys64/ucrt64/include/c++/14.2.0/bits/allocator.h \
  C:/msys64/ucrt64/include/c++/14.2.0/x86_64-w64-mingw32/bits/c++allocator.h \

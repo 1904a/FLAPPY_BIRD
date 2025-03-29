@@ -25,10 +25,13 @@ SDL_Texture* playButtonTexture = nullptr;
 
 TTF_Font* font = nullptr;
 
-Mix_Music* bgMusic = nullptr;
-Mix_Chunk* soundPlay = nullptr;
-Mix_Chunk* soundJump = nullptr;
-Mix_Chunk* soundHit = nullptr;
+Mix_Music* bgm = nullptr;        // Nhạc nền
+Mix_Chunk* soundJump = nullptr;  // Âm thanh nhảy
+Mix_Chunk* soundHit = nullptr;   // Âm thanh va chạm
+Mix_Chunk* soundPoint = nullptr; // Âm thanh đạt điểm
+Mix_Chunk* soundGameOver = nullptr; // Âm thanh game over
+
+
 
 int collisionOffset = 15;
 int score = 0;
@@ -76,15 +79,23 @@ void init() {
     if (!font) {
         cerr << "Failed to load font: " << TTF_GetError() << endl;
     }
+    // Khởi tạo SDL_mixer
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
-    bgMusic = Mix_LoadMUS("play.mp3");       // Nhạc nền khi ấn play
-    soundPlay = Mix_LoadWAV("jump.mp3");     // Khi nhảy
-    soundJump = Mix_LoadWAV("hit.mp3");     // Khi va chạm
 
-    if (!bgMusic || !soundPlay || !soundJump) {
+    // Load nhạc nền (MP3 -> Mix_Music)
+    bgm = Mix_LoadMUS("bgm.mp3");
+
+    // Load hiệu ứng âm thanh (WAV -> Mix_Chunk)
+    soundJump = Mix_LoadWAV("jump.wav");
+    soundHit = Mix_LoadWAV("hit.wav");
+    soundPoint = Mix_LoadWAV("point.wav");
+    soundGameOver = Mix_LoadWAV("gameover.wav");
+
+    // Kiểm tra lỗi
+    if (!bgm || !soundJump || !soundHit || !soundPoint || !soundGameOver) {
         cerr << "Failed to load sound: " << Mix_GetError() << endl;
     }
-
+    Mix_PlayMusic(bgm, -1);
 }
 
 
@@ -96,10 +107,12 @@ void handleInput() {
         if (showMenu && event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE) {
             showMenu = false;
             gameStarted = true;
+            Mix_HaltMusic();
         }
 
         if (!showMenu && !showGameOverScreen && event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE && !gameOver) {
             birdVelocity = JUMP_STRENGTH;
+            Mix_PlayChannel(-1, soundJump, 0);
         }
 
         if (showGameOverScreen && event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE) {
@@ -124,13 +137,17 @@ void update() {
     if (!gameStarted) return;
     if (gameOver) {
         showGameOverScreen = true;
+        Mix_PlayMusic(bgm, -1);
         return;
     }
 
     birdVelocity += GRAVITY;
     bird.y += birdVelocity;
 
-    if (bird.y + bird.h >= SCREEN_HEIGHT - GROUND_HEIGHT) gameOver = true;
+    if (bird.y + bird.h >= SCREEN_HEIGHT - GROUND_HEIGHT) {
+        gameOver = true;
+        Mix_PlayChannel(-1, soundGameOver, 0);
+    }
 
     for (auto& pipe : pipes) pipe.x -= PIPE_SPEED;
     if (!pipes.empty() && pipes[0].x < -PIPE_WIDTH) pipes.erase(pipes.begin());
@@ -145,11 +162,13 @@ void update() {
         if (bird.x > pipe.x + PIPE_WIDTH && !pipe.scored) {
             pipe.scored = true;
             score++;
+            Mix_PlayChannel(-1, soundPoint, 0);
         }
 
         if (birdHitbox.x + birdHitbox.w > pipe.x && birdHitbox.x < pipe.x + PIPE_WIDTH) {
             if (birdHitbox.y < pipe.height || birdHitbox.y + birdHitbox.h > pipe.height + PIPE_GAP) {
                 gameOver = true;
+                Mix_PlayChannel(-1, soundHit, 0);
             }
         }
     }
@@ -204,6 +223,12 @@ void cleanUp() {
     SDL_DestroyTexture(groundTexture);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+    Mix_FreeMusic(bgm);
+    Mix_FreeChunk(soundJump);
+    Mix_FreeChunk(soundHit);
+    Mix_FreeChunk(soundPoint);
+    Mix_FreeChunk(soundGameOver);
+    Mix_CloseAudio();
     TTF_CloseFont(font); // Giải phóng bộ nhớ font
     TTF_Quit(); // Tắt SDL_ttf
     IMG_Quit();
@@ -213,6 +238,7 @@ void cleanUp() {
 
 int main(int argc, char* argv[]) {
     init();
+    Mix_PlayMusic(bgm, -1);
     while (isRunning) {
         handleInput();
         update();

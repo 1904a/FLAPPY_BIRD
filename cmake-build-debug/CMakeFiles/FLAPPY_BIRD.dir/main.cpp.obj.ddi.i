@@ -80431,6 +80431,281 @@ extern int TTF_SetFontScriptName(TTF_Font *font, const char *script);
 # 1 "C:/msys64/ucrt64/include/SDL2/close_code.h" 1 3
 # 2340 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 2 3
 # 4 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 2
+# 1 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 1 3
+# 37 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+# 1 "C:/msys64/ucrt64/include/SDL2/begin_code.h" 1 3
+# 38 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 2 3
+
+
+
+extern "C" {
+# 104 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern const SDL_version * Mix_Linked_Version(void);
+
+
+
+
+typedef enum MIX_InitFlags
+{
+    MIX_INIT_FLAC = 0x00000001,
+    MIX_INIT_MOD = 0x00000002,
+    MIX_INIT_MP3 = 0x00000008,
+    MIX_INIT_OGG = 0x00000010,
+    MIX_INIT_MID = 0x00000020,
+    MIX_INIT_OPUS = 0x00000040,
+    MIX_INIT_WAVPACK= 0x00000080
+} MIX_InitFlags;
+# 187 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_Init(int flags);
+# 212 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern void Mix_Quit(void);
+# 231 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+typedef struct Mix_Chunk {
+    int allocated;
+    Uint8 *abuf;
+    Uint32 alen;
+    Uint8 volume;
+} Mix_Chunk;
+
+
+
+
+typedef enum Mix_Fading {
+    MIX_NO_FADING,
+    MIX_FADING_OUT,
+    MIX_FADING_IN
+} Mix_Fading;
+
+
+
+
+typedef enum Mix_MusicType {
+    MUS_NONE,
+    MUS_CMD,
+    MUS_WAV,
+    MUS_MOD,
+    MUS_MID,
+    MUS_OGG,
+    MUS_MP3,
+    MUS_MP3_MAD_UNUSED,
+    MUS_FLAC,
+    MUS_MODPLUG_UNUSED,
+    MUS_OPUS,
+    MUS_WAVPACK,
+    MUS_GME
+} Mix_MusicType;
+
+
+
+
+typedef struct Mix_Music Mix_Music;
+# 358 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_OpenAudio(int frequency, Uint16 format, int channels, int chunksize);
+# 463 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_OpenAudioDevice(int frequency, Uint16 format, int channels, int chunksize, const char* device, int allowed_changes);
+# 472 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern void Mix_PauseAudio(int pause_on);
+# 501 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_QuerySpec(int *frequency, Uint16 *format, int *channels);
+# 533 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_AllocateChannels(int numchans);
+# 576 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern Mix_Chunk * Mix_LoadWAV_RW(SDL_RWops *src, int freesrc);
+# 617 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern Mix_Chunk * Mix_LoadWAV(const char *file);
+# 648 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern Mix_Music * Mix_LoadMUS(const char *file);
+# 692 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern Mix_Music * Mix_LoadMUS_RW(SDL_RWops *src, int freesrc);
+# 749 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern Mix_Music * Mix_LoadMUSType_RW(SDL_RWops *src, Mix_MusicType type, int freesrc);
+# 784 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern Mix_Chunk * Mix_QuickLoad_WAV(Uint8 *mem);
+# 804 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern Mix_Chunk * Mix_QuickLoad_RAW(Uint8 *mem, Uint32 len);
+# 825 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern void Mix_FreeChunk(Mix_Chunk *chunk);
+# 844 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern void Mix_FreeMusic(Mix_Music *music);
+# 868 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_GetNumChunkDecoders(void);
+# 889 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern const char * Mix_GetChunkDecoder(int index);
+# 912 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern SDL_bool Mix_HasChunkDecoder(const char *name);
+# 936 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_GetNumMusicDecoders(void);
+# 957 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern const char * Mix_GetMusicDecoder(int index);
+# 980 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern SDL_bool Mix_HasMusicDecoder(const char *name);
+# 994 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern Mix_MusicType Mix_GetMusicType(const Mix_Music *music);
+# 1024 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern const char * Mix_GetMusicTitle(const Mix_Music *music);
+# 1051 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern const char * Mix_GetMusicTitleTag(const Mix_Music *music);
+# 1073 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern const char * Mix_GetMusicArtistTag(const Mix_Music *music);
+# 1095 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern const char * Mix_GetMusicAlbumTag(const Mix_Music *music);
+# 1117 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern const char * Mix_GetMusicCopyrightTag(const Mix_Music *music);
+
+typedef void ( *Mix_MixCallback)(void *udata, Uint8 *stream, int len);
+# 1157 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern void Mix_SetPostMix(Mix_MixCallback mix_func, void *arg);
+# 1203 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern void Mix_HookMusic(Mix_MixCallback mix_func, void *arg);
+
+typedef void ( *Mix_MusicFinishedCallback)(void);
+# 1230 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern void Mix_HookMusicFinished(Mix_MusicFinishedCallback music_finished);
+# 1242 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern void * Mix_GetMusicHookData(void);
+
+typedef void ( *Mix_ChannelFinishedCallback)(int channel);
+# 1266 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern void Mix_ChannelFinished(Mix_ChannelFinishedCallback channel_finished);
+# 1288 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+typedef void ( *Mix_EffectFunc_t)(int chan, void *stream, int len, void *udata);
+# 1300 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+typedef void ( *Mix_EffectDone_t)(int chan, void *udata);
+# 1367 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_RegisterEffect(int chan, Mix_EffectFunc_t f, Mix_EffectDone_t d, void *arg);
+# 1392 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_UnregisterEffect(int channel, Mix_EffectFunc_t f);
+# 1418 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_UnregisterAllEffects(int channel);
+# 1477 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_SetPanning(int channel, Uint8 left, Uint8 right);
+# 1528 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_SetPosition(int channel, Sint16 angle, Uint8 distance);
+# 1566 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_SetDistance(int channel, Uint8 distance);
+# 1600 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_SetReverseStereo(int channel, int flip);
+# 1629 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_ReserveChannels(int num);
+# 1654 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_GroupChannel(int which, int tag);
+# 1680 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_GroupChannels(int from, int to, int tag);
+# 1698 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_GroupAvailable(int tag);
+# 1711 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_GroupCount(int tag);
+# 1729 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_GroupOldest(int tag);
+# 1747 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_GroupNewer(int tag);
+# 1778 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_PlayChannel(int channel, Mix_Chunk *chunk, int loops);
+# 1811 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_PlayChannelTimed(int channel, Mix_Chunk *chunk, int loops, int ticks);
+# 1834 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_PlayMusic(Mix_Music *music, int loops);
+# 1861 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_FadeInMusic(Mix_Music *music, int loops, int ms);
+# 1900 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_FadeInMusicPos(Mix_Music *music, int loops, int ms, double position);
+# 1941 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_FadeInChannel(int channel, Mix_Chunk *chunk, int loops, int ms);
+# 1985 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_FadeInChannelTimed(int channel, Mix_Chunk *chunk, int loops, int ms, int ticks);
+# 2013 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_Volume(int channel, int volume);
+# 2041 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_VolumeChunk(Mix_Chunk *chunk, int volume);
+# 2062 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_VolumeMusic(int volume);
+# 2072 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_GetMusicVolume(Mix_Music *music);
+# 2098 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_MasterVolume(int volume);
+# 2120 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_HaltChannel(int channel);
+# 2142 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_HaltGroup(int tag);
+# 2157 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_HaltMusic(void);
+# 2185 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_ExpireChannel(int channel, int ticks);
+# 2211 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_FadeOutChannel(int which, int ms);
+# 2244 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_FadeOutGroup(int tag, int ms);
+# 2269 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_FadeOutMusic(int ms);
+# 2286 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern Mix_Fading Mix_FadingMusic(void);
+# 2310 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern Mix_Fading Mix_FadingChannel(int which);
+# 2336 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern void Mix_Pause(int channel);
+# 2354 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern void Mix_Resume(int channel);
+# 2367 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_Paused(int channel);
+# 2383 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern void Mix_PauseMusic(void);
+# 2393 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern void Mix_ResumeMusic(void);
+# 2405 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern void Mix_RewindMusic(void);
+# 2417 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_PausedMusic(void);
+# 2429 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_ModMusicJumpToOrder(int order);
+# 2442 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_StartTrack(Mix_Music *music, int track);
+# 2455 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_GetNumTracks(Mix_Music *music);
+# 2470 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_SetMusicPosition(double position);
+# 2482 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern double Mix_GetMusicPosition(Mix_Music *music);
+# 2496 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern double Mix_MusicDuration(Mix_Music *music);
+# 2511 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern double Mix_GetMusicLoopStartTime(Mix_Music *music);
+# 2526 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern double Mix_GetMusicLoopEndTime(Mix_Music *music);
+# 2541 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern double Mix_GetMusicLoopLengthTime(Mix_Music *music);
+# 2563 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_Playing(int channel);
+# 2578 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_PlayingMusic(void);
+# 2601 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_SetMusicCMD(const char *command);
+# 2616 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_SetSynchroValue(int value);
+# 2630 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_GetSynchroValue(void);
+# 2652 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_SetSoundFonts(const char *paths);
+# 2679 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern const char* Mix_GetSoundFonts(void);
+
+typedef int ( *Mix_EachSoundFontCallback)(const char*, void*);
+# 2708 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_EachSoundFont(Mix_EachSoundFontCallback function, void *data);
+# 2723 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern int Mix_SetTimidityCfg(const char *path);
+# 2741 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern const char* Mix_GetTimidityCfg(void);
+# 2753 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern Mix_Chunk * Mix_GetChunk(int channel);
+# 2794 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+extern void Mix_CloseAudio(void);
+# 2826 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 3
+}
+
+
+# 1 "C:/msys64/ucrt64/include/SDL2/close_code.h" 1 3
+# 2830 "C:/msys64/ucrt64/include/SDL2/SDL_mixer.h" 2 3
+# 5 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 2
 # 1 "C:/msys64/ucrt64/include/c++/14.2.0/vector" 1 3
 # 58 "C:/msys64/ucrt64/include/c++/14.2.0/vector" 3
        
@@ -93565,7 +93840,7 @@ namespace std
     }
 
 }
-# 5 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 2
+# 6 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 2
 # 1 "C:/msys64/ucrt64/include/c++/14.2.0/iostream" 1 3
 # 36 "C:/msys64/ucrt64/include/c++/14.2.0/iostream" 3
        
@@ -110957,9 +111232,9 @@ namespace std
 # 85 "C:/msys64/ucrt64/include/c++/14.2.0/iostream" 3
 
 }
-# 6 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 2
+# 7 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 2
 
-# 6 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 7 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
 using namespace std;
 
 const int SCREEN_WIDTH = 800;
@@ -110978,7 +111253,17 @@ SDL_Texture* birdTexture = nullptr;
 SDL_Texture* pipeTexture = nullptr;
 SDL_Texture* groundTexture = nullptr;
 SDL_Texture* playButtonTexture = nullptr;
+
 TTF_Font* font = nullptr;
+
+Mix_Music* bgm = nullptr;
+Mix_Chunk* soundJump = nullptr;
+Mix_Chunk* soundHit = nullptr;
+Mix_Chunk* soundPoint = nullptr;
+Mix_Chunk* soundGameOver = nullptr;
+
+
+
 int collisionOffset = 15;
 int score = 0;
 
@@ -111002,9 +111287,9 @@ SDL_Texture* loadTexture(const char* path) {
     SDL_Surface* surface = IMG_Load(path);
     if (!surface) {
         cerr << "Failed to load image: " << path << " " << 
-# 47 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
+# 58 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
                                                           SDL_GetError
-# 47 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 58 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                                                       () << endl;
         return nullptr;
     }
@@ -111015,20 +111300,20 @@ SDL_Texture* loadTexture(const char* path) {
 
 void init() {
     SDL_Init(
-# 56 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
+# 67 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
             0x00000020u
-# 56 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 67 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                           );
     IMG_Init(IMG_INIT_PNG);
     TTF_Init();
     window = SDL_CreateWindow("Flappy Bird", 
-# 59 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
+# 70 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
                                             (0x2FFF0000u|(0))
-# 59 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 70 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                                                   , 
-# 59 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
+# 70 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
                                                                     (0x2FFF0000u|(0))
-# 59 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 70 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                                                                           , SCREEN_WIDTH, SCREEN_HEIGHT, 0);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     background = loadTexture("background.png");
@@ -111040,11 +111325,36 @@ void init() {
     font = TTF_OpenFont("Roboto_Condensed-Regular.ttf", 24);
     if (!font) {
         cerr << "Failed to load font: " << 
-# 69 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
+# 80 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
                                           SDL_GetError
-# 69 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 80 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                                       () << endl;
     }
+
+    Mix_OpenAudio(44100, 
+# 83 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
+                        0x8010
+# 83 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+                                          , 2, 2048);
+
+
+    bgm = Mix_LoadMUS("bgm.mp3");
+
+
+    soundJump = Mix_LoadWAV("jump.wav");
+    soundHit = Mix_LoadWAV("hit.wav");
+    soundPoint = Mix_LoadWAV("point.wav");
+    soundGameOver = Mix_LoadWAV("gameover.wav");
+
+
+    if (!bgm || !soundJump || !soundHit || !soundPoint || !soundGameOver) {
+        cerr << "Failed to load sound: " << 
+# 96 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
+                                           SDL_GetError
+# 96 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+                                                       () << endl;
+    }
+    Mix_PlayMusic(bgm, -1);
 }
 
 
@@ -111056,10 +111366,12 @@ void handleInput() {
         if (showMenu && event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE) {
             showMenu = false;
             gameStarted = true;
+            Mix_HaltMusic();
         }
 
         if (!showMenu && !showGameOverScreen && event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE && !gameOver) {
             birdVelocity = JUMP_STRENGTH;
+            Mix_PlayChannel(-1, soundJump, 0);
         }
 
         if (showGameOverScreen && event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE) {
@@ -111084,13 +111396,17 @@ void update() {
     if (!gameStarted) return;
     if (gameOver) {
         showGameOverScreen = true;
+        Mix_PlayMusic(bgm, -1);
         return;
     }
 
     birdVelocity += GRAVITY;
     bird.y += birdVelocity;
 
-    if (bird.y + bird.h >= SCREEN_HEIGHT - GROUND_HEIGHT) gameOver = true;
+    if (bird.y + bird.h >= SCREEN_HEIGHT - GROUND_HEIGHT) {
+        gameOver = true;
+        Mix_PlayChannel(-1, soundGameOver, 0);
+    }
 
     for (auto& pipe : pipes) pipe.x -= PIPE_SPEED;
     if (!pipes.empty() && pipes[0].x < -PIPE_WIDTH) pipes.erase(pipes.begin());
@@ -111105,11 +111421,13 @@ void update() {
         if (bird.x > pipe.x + PIPE_WIDTH && !pipe.scored) {
             pipe.scored = true;
             score++;
+            Mix_PlayChannel(-1, soundPoint, 0);
         }
 
         if (birdHitbox.x + birdHitbox.w > pipe.x && birdHitbox.x < pipe.x + PIPE_WIDTH) {
             if (birdHitbox.y < pipe.height || birdHitbox.y + birdHitbox.h > pipe.height + PIPE_GAP) {
                 gameOver = true;
+                Mix_PlayChannel(-1, soundHit, 0);
             }
         }
     }
@@ -111119,20 +111437,20 @@ void update() {
 void render() {
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, background, 
-# 144 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+# 180 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
                                         __null
-# 144 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 180 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                             , 
-# 144 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+# 180 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
                                               __null
-# 144 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 180 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                                   );
 
     if (showMenu) {
         SDL_RenderCopy(renderer, playButtonTexture, 
-# 147 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+# 183 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
                                                    __null
-# 147 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 183 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                                        , &playButton);
     } else if (showGameOverScreen) {
         SDL_Color navajoWhite2 = {238, 207, 161, 255};
@@ -111142,9 +111460,9 @@ void render() {
         SDL_Texture* message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
         SDL_Rect messageRect = {SCREEN_WIDTH / 3, SCREEN_HEIGHT / 3, 200, 50};
         SDL_RenderCopy(renderer, message, 
-# 155 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+# 191 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
                                          __null
-# 155 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 191 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                              , &messageRect);
         SDL_FreeSurface(surfaceMessage);
         SDL_DestroyTexture(message);
@@ -111155,9 +111473,9 @@ void render() {
         message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
         messageRect = {SCREEN_WIDTH / 3, SCREEN_HEIGHT / 2, 200, 50};
         SDL_RenderCopy(renderer, message, 
-# 164 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+# 200 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
                                          __null
-# 164 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 200 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                              , &messageRect);
         SDL_FreeSurface(surfaceMessage);
         SDL_DestroyTexture(message);
@@ -111166,31 +111484,31 @@ void render() {
             SDL_Rect pipeTop = {pipe.x, 0, PIPE_WIDTH, pipe.height};
             SDL_Rect pipeBottom = {pipe.x, pipe.height + PIPE_GAP, PIPE_WIDTH, SCREEN_HEIGHT - pipe.height - PIPE_GAP - GROUND_HEIGHT};
             SDL_RenderCopyEx(renderer, pipeTexture, 
-# 171 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+# 207 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
                                                    __null
-# 171 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 207 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                                        , &pipeTop, 0, 
-# 171 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+# 207 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
                                                                       __null
-# 171 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 207 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                                                           , SDL_FLIP_VERTICAL);
             SDL_RenderCopy(renderer, pipeTexture, 
-# 172 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+# 208 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
                                                  __null
-# 172 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 208 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                                      , &pipeBottom);
         }
 
         SDL_RenderCopy(renderer, birdTexture, 
-# 175 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+# 211 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
                                              __null
-# 175 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 211 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                                  , &bird);
         SDL_Rect groundRect = {0, SCREEN_HEIGHT - 140, SCREEN_WIDTH, 140};
         SDL_RenderCopy(renderer, groundTexture, 
-# 177 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+# 213 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
                                                __null
-# 177 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 213 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                                    , &groundRect);
     }
 
@@ -111204,6 +111522,12 @@ void cleanUp() {
     SDL_DestroyTexture(groundTexture);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+    Mix_FreeMusic(bgm);
+    Mix_FreeChunk(soundJump);
+    Mix_FreeChunk(soundHit);
+    Mix_FreeChunk(soundPoint);
+    Mix_FreeChunk(soundGameOver);
+    Mix_CloseAudio();
     TTF_CloseFont(font);
     TTF_Quit();
     IMG_Quit();
@@ -111212,11 +111536,12 @@ void cleanUp() {
 
 
 int 
-# 197 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
+# 239 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
    SDL_main
-# 197 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 239 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
        (int argc, char* argv[]) {
     init();
+    Mix_PlayMusic(bgm, -1);
     while (isRunning) {
         handleInput();
         update();
