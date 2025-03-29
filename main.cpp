@@ -112,19 +112,23 @@ void renderText(const std::string& text, int x, int y) {
     SDL_DestroyTexture(texture);
 }
 void loginScreen(SDL_Event& e) {
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Màn hình nền đen
     SDL_RenderClear(renderer);
     renderText("Enter your name:", 100, 100);
     renderText(playerName, 100, 150);
     SDL_RenderPresent(renderer);
 
-    while (SDL_PollEvent(&e)) {
-        if (e.type == SDL_QUIT) exit(0);
-        if (e.type == SDL_TEXTINPUT) playerName += e.text.text;
-        if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RETURN) {
-            gameState = PLAYING;
-        }
+    if (e.type == SDL_TEXTINPUT) {
+        playerName += e.text.text;
+    }
+    if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_BACKSPACE && !playerName.empty()) {
+        playerName.pop_back();
+    }
+    if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RETURN && !playerName.empty()) {
+        gameState = PLAYING;
     }
 }
+
 void gameOverScreen(SDL_Event& e) {
     SDL_RenderClear(renderer);
     renderText("Game Over!", 100, 100);

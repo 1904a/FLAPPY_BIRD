@@ -111107,19 +111107,23 @@ void renderText(const std::string& text, int x, int y) {
     SDL_DestroyTexture(texture);
 }
 void loginScreen(SDL_Event& e) {
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
     renderText("Enter your name:", 100, 100);
     renderText(playerName, 100, 150);
     SDL_RenderPresent(renderer);
 
-    while (SDL_PollEvent(&e)) {
-        if (e.type == SDL_QUIT) exit(0);
-        if (e.type == SDL_TEXTINPUT) playerName += e.text.text;
-        if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RETURN) {
-            gameState = PLAYING;
-        }
+    if (e.type == SDL_TEXTINPUT) {
+        playerName += e.text.text;
+    }
+    if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_BACKSPACE && !playerName.empty()) {
+        playerName.pop_back();
+    }
+    if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RETURN && !playerName.empty()) {
+        gameState = PLAYING;
     }
 }
+
 void gameOverScreen(SDL_Event& e) {
     SDL_RenderClear(renderer);
     renderText("Game Over!", 100, 100);
@@ -111141,9 +111145,9 @@ void render() {
 
     SDL_Rect birdDst = {50, birdY, BIRD_WIDTH, BIRD_HEIGHT};
     SDL_RenderCopy(renderer, birdTexture, 
-# 148 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+# 152 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
                                          __null
-# 148 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 152 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                              , &birdDst);
 
     for (auto &pipe : pipes) {
@@ -111151,19 +111155,19 @@ void render() {
         SDL_Rect pipeDstBottom = {pipe.x, pipe.height + PIPE_GAP, PIPE_WIDTH, SCREEN_HEIGHT - pipe.height - PIPE_GAP - GROUND_HEIGHT};
         SDL_Rect groundDst = {0, SCREEN_HEIGHT - 550 , SCREEN_WIDTH, 550 };
         SDL_RenderCopy(renderer, pipeTopTexture, 
-# 154 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+# 158 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
                                                 __null
-# 154 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 158 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                                     , &pipeDstTop);
         SDL_RenderCopy(renderer, pipeBottomTexture, 
-# 155 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+# 159 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
                                                    __null
-# 155 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 159 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                                        , &pipeDstBottom);
         SDL_RenderCopy(renderer, groundTexture, 
-# 156 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+# 160 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
                                                __null
-# 156 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 160 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                                    , &groundDst);
     }
 
@@ -111182,35 +111186,55 @@ void clean() {
 }
 
 int 
-# 173 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
+# 177 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
    SDL_main
-# 173 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
-       (int argc, char*argv[] ) {
+# 177 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+       (int argc, char* argv[]) {
     SDL_Init(
-# 174 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
+# 178 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
             0x00000020u
-# 174 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 178 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                           );
     TTF_Init();
     window = SDL_CreateWindow("Flappy Bird", 
-# 176 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
+# 180 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
                                             (0x2FFF0000u|(0))
-# 176 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 180 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                                                   , 
-# 176 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
+# 180 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
                                                                     (0x2FFF0000u|(0))
-# 176 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
-                                                                                          , 800, 600, 0);
+# 180 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+                                                                                          , SCREEN_WIDTH, SCREEN_HEIGHT, 0);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     font = TTF_OpenFont("arial.ttf", 24);
     initSDL();
 
+    SDL_StartTextInput();
+    SDL_Event event;
+
     while (running) {
-        handleEvents();
-        update();
-        render();
-        SDL_Delay(16);
+        while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_QUIT) running = false;
+
+            if (gameState == LOGIN) {
+                loginScreen(event);
+            } else if (gameState == PLAYING) {
+                handleEvents();
+            } else if (gameState == GAME_OVER) {
+                gameOverScreen(event);
+            }
+        }
+
+        if (gameState == LOGIN || gameState == GAME_OVER) {
+            SDL_Delay(100);
+        } else {
+            update();
+            render();
+            SDL_Delay(16);
+        }
     }
+
+    SDL_StopTextInput();
     clean();
     cout << "Game Over! Score: " << score << endl;
     return 0;
