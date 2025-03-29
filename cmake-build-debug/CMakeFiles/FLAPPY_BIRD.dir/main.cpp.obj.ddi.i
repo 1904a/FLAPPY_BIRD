@@ -110716,8 +110716,9 @@ namespace std
 }
 # 5 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 2
 
+# 5 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+using namespace std;
 
-# 6 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
 const int GRAVITY = 1;
@@ -110733,25 +110734,32 @@ SDL_Texture* background = nullptr;
 SDL_Texture* birdTexture = nullptr;
 SDL_Texture* pipeTexture = nullptr;
 SDL_Texture* groundTexture = nullptr;
+SDL_Texture* playButtonTexture = nullptr;
+int collisionOffset = 15;
+int score = 0;
 
 struct Pipe {
     int x, height;
+    bool scored = false;
 };
 
-std::vector<Pipe> pipes;
+vector<Pipe> pipes;
 SDL_Rect bird = {100, SCREEN_HEIGHT / 2, 50, 50};
+SDL_Rect playButton = {SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT / 2 - 25, 100, 50};
 int birdVelocity = 0;
 bool isRunning = true;
 bool gameOver = false;
+bool gameStarted = false;
+bool showMenu = true;
 
 SDL_Texture* loadTexture(const char* path) {
     SDL_Surface* surface = IMG_Load(path);
     if (!surface) {
-        std::cerr << "Failed to load image: " << path << " " << 
-# 35 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
-                                                               SDL_GetError
-# 35 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
-                                                                           () << std::endl;
+        cerr << "Failed to load image: " << path << " " << 
+# 43 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
+                                                          SDL_GetError
+# 43 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+                                                                      () << endl;
         return nullptr;
     }
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
@@ -110761,36 +110769,49 @@ SDL_Texture* loadTexture(const char* path) {
 
 void init() {
     SDL_Init(
-# 44 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
+# 52 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
             0x00000020u
-# 44 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 52 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                           );
     IMG_Init(IMG_INIT_PNG);
     window = SDL_CreateWindow("Flappy Bird", 
-# 46 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
+# 54 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
                                             (0x2FFF0000u|(0))
-# 46 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 54 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                                                   , 
-# 46 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
+# 54 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
                                                                     (0x2FFF0000u|(0))
-# 46 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 54 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                                                                           , SCREEN_WIDTH, SCREEN_HEIGHT, 0);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     background = loadTexture("background.png");
     birdTexture = loadTexture("chim.png");
     pipeTexture = loadTexture("cot.png");
     groundTexture = loadTexture("ground.png");
+    playButtonTexture = loadTexture("play_button.jpg");
 }
 
 void handleInput() {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
         if (event.type == SDL_QUIT) isRunning = false;
-        if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE && !gameOver) {
+
+
+        if (showMenu && event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE) {
+            showMenu = false;
+            gameStarted = true;
+        }
+
+
+        if (!showMenu && event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE && !gameOver) {
             birdVelocity = JUMP_STRENGTH;
         }
+
+
         if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_r && gameOver) {
             gameOver = false;
+            gameStarted = false;
+            showMenu = true;
             bird.y = SCREEN_HEIGHT / 2;
             birdVelocity = 0;
             pipes.clear();
@@ -110798,7 +110819,11 @@ void handleInput() {
     }
 }
 
+
+
 void update() {
+    if (showMenu) return;
+    if (!gameStarted) return;
     if (gameOver) return;
 
     birdVelocity += GRAVITY;
@@ -110813,58 +110838,73 @@ void update() {
         int randomHeight = rand() % (SCREEN_HEIGHT - GROUND_HEIGHT - PIPE_GAP - 200) + 100;
         pipes.push_back({SCREEN_WIDTH, randomHeight});
     }
-
-    for (const auto& pipe : pipes) {
-        if (bird.x + bird.w > pipe.x && bird.x < pipe.x + PIPE_WIDTH) {
-            if (bird.y < pipe.height || bird.y + bird.h > pipe.height + PIPE_GAP) gameOver = true;
+    SDL_Rect birdHitbox = {bird.x + collisionOffset, bird.y + collisionOffset, bird.w - 2 * collisionOffset, bird.h - 2 * collisionOffset};
+    for (auto& pipe : pipes) {
+        if (bird.x > pipe.x + PIPE_WIDTH && !pipe.scored) {
+            pipe.scored = true;
+            score++;
         }
+        if (birdHitbox.x + birdHitbox.w > pipe.x && birdHitbox.x < pipe.x + PIPE_WIDTH) {
+            if (birdHitbox.y < pipe.height || birdHitbox.y + birdHitbox.h > pipe.height + PIPE_GAP) {
+                gameOver = true;
+        }
+    }
     }
 }
 
 void render() {
     SDL_RenderClear(renderer);
     SDL_RenderCopy(renderer, background, 
-# 95 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+# 126 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
                                         __null
-# 95 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 126 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                             , 
-# 95 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+# 126 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
                                               __null
-# 95 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 126 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                                   );
 
-    for (const auto& pipe : pipes) {
-        SDL_Rect pipeTop = {pipe.x, 0, PIPE_WIDTH, pipe.height};
-        SDL_Rect pipeBottom = {pipe.x, pipe.height + PIPE_GAP, PIPE_WIDTH, SCREEN_HEIGHT - pipe.height - PIPE_GAP - GROUND_HEIGHT};
-        SDL_RenderCopyEx(renderer, pipeTexture, 
-# 100 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
-                                               __null
-# 100 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
-                                                   , &pipeTop, 0, 
-# 100 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
-                                                                  __null
-# 100 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
-                                                                      , SDL_FLIP_VERTICAL);
-        SDL_RenderCopy(renderer, pipeTexture, 
-# 101 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
-                                             __null
-# 101 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
-                                                 , &pipeBottom);
-    }
+    if (showMenu) {
+        SDL_RenderCopy(renderer, playButtonTexture, 
+# 129 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+                                                   __null
+# 129 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+                                                       , &playButton);
+    } else {
+        for (const auto& pipe : pipes) {
+            SDL_Rect pipeTop = {pipe.x, 0, PIPE_WIDTH, pipe.height};
+            SDL_Rect pipeBottom = {pipe.x, pipe.height + PIPE_GAP, PIPE_WIDTH, SCREEN_HEIGHT - pipe.height - PIPE_GAP - GROUND_HEIGHT};
+            SDL_RenderCopyEx(renderer, pipeTexture, 
+# 134 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+                                                   __null
+# 134 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+                                                       , &pipeTop, 0, 
+# 134 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+                                                                      __null
+# 134 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+                                                                          , SDL_FLIP_VERTICAL);
+            SDL_RenderCopy(renderer, pipeTexture, 
+# 135 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+                                                 __null
+# 135 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+                                                     , &pipeBottom);
+        }
 
-    SDL_RenderCopy(renderer, birdTexture, 
-# 104 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
-                                         __null
-# 104 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
-                                             , &bird);
-    SDL_Rect groundRect = {0, SCREEN_HEIGHT - GROUND_HEIGHT, SCREEN_WIDTH, GROUND_HEIGHT};
-    SDL_RenderCopy(renderer, groundTexture, 
-# 106 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
-                                           __null
-# 106 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
-                                               , &groundRect);
+        SDL_RenderCopy(renderer, birdTexture, 
+# 138 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+                                             __null
+# 138 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+                                                 , &bird);
+        SDL_Rect groundRect = {0, SCREEN_HEIGHT - 140, SCREEN_WIDTH, 140};
+        SDL_RenderCopy(renderer, groundTexture, 
+# 140 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+                                               __null
+# 140 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+                                                   , &groundRect);
+    }
     SDL_RenderPresent(renderer);
 }
+
 
 void cleanUp() {
     SDL_DestroyTexture(background);
@@ -110878,9 +110918,9 @@ void cleanUp() {
 }
 
 int 
-# 121 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
+# 157 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
    SDL_main
-# 121 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 157 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
        (int argc, char* argv[]) {
     init();
     while (isRunning) {
@@ -110890,5 +110930,6 @@ int
         SDL_Delay(16);
     }
     cleanUp();
+    cout<<"your score "<<score<<endl;
     return 0;
 }
