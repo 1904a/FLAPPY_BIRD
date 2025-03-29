@@ -146,20 +146,19 @@ void render() {
     if (showMenu) {
         SDL_RenderCopy(renderer, playButtonTexture, NULL, &playButton);
     } else if (showGameOverScreen) {
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 150); // Màu nền mờ
-        SDL_Rect gameOverRect = {SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2};
-        SDL_RenderFillRect(renderer, &gameOverRect);
+        SDL_Color navajoWhite2 = {238, 207, 161, 255};
 
-        SDL_Color white = {255, 255, 255, 255};
-        SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, "GAME OVER", white);
+        // Hiển thị chữ "GAME OVER"
+        SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, "GAME OVER", navajoWhite2);
         SDL_Texture* message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
         SDL_Rect messageRect = {SCREEN_WIDTH / 3, SCREEN_HEIGHT / 3, 200, 50};
         SDL_RenderCopy(renderer, message, NULL, &messageRect);
         SDL_FreeSurface(surfaceMessage);
         SDL_DestroyTexture(message);
 
+        // Hiển thị điểm số
         string scoreText = "Score: " + to_string(score);
-        surfaceMessage = TTF_RenderText_Solid(font, scoreText.c_str(), white);
+        surfaceMessage = TTF_RenderText_Solid(font, scoreText.c_str(), navajoWhite2);
         message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
         messageRect = {SCREEN_WIDTH / 3, SCREEN_HEIGHT / 2, 200, 50};
         SDL_RenderCopy(renderer, message, NULL, &messageRect);
@@ -180,8 +179,6 @@ void render() {
 
     SDL_RenderPresent(renderer);
 }
-
-
 
 void cleanUp() {
     SDL_DestroyTexture(background);

@@ -111135,30 +111135,29 @@ void render() {
 # 147 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                                        , &playButton);
     } else if (showGameOverScreen) {
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 150);
-        SDL_Rect gameOverRect = {SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2};
-        SDL_RenderFillRect(renderer, &gameOverRect);
+        SDL_Color navajoWhite2 = {238, 207, 161, 255};
 
-        SDL_Color white = {255, 255, 255, 255};
-        SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, "GAME OVER", white);
+
+        SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, "GAME OVER", navajoWhite2);
         SDL_Texture* message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
         SDL_Rect messageRect = {SCREEN_WIDTH / 3, SCREEN_HEIGHT / 3, 200, 50};
         SDL_RenderCopy(renderer, message, 
-# 157 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+# 155 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
                                          __null
-# 157 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 155 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                              , &messageRect);
         SDL_FreeSurface(surfaceMessage);
         SDL_DestroyTexture(message);
 
+
         string scoreText = "Score: " + to_string(score);
-        surfaceMessage = TTF_RenderText_Solid(font, scoreText.c_str(), white);
+        surfaceMessage = TTF_RenderText_Solid(font, scoreText.c_str(), navajoWhite2);
         message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
         messageRect = {SCREEN_WIDTH / 3, SCREEN_HEIGHT / 2, 200, 50};
         SDL_RenderCopy(renderer, message, 
-# 165 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+# 164 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
                                          __null
-# 165 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 164 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                              , &messageRect);
         SDL_FreeSurface(surfaceMessage);
         SDL_DestroyTexture(message);
@@ -111167,38 +111166,36 @@ void render() {
             SDL_Rect pipeTop = {pipe.x, 0, PIPE_WIDTH, pipe.height};
             SDL_Rect pipeBottom = {pipe.x, pipe.height + PIPE_GAP, PIPE_WIDTH, SCREEN_HEIGHT - pipe.height - PIPE_GAP - GROUND_HEIGHT};
             SDL_RenderCopyEx(renderer, pipeTexture, 
-# 172 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+# 171 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
                                                    __null
-# 172 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 171 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                                        , &pipeTop, 0, 
-# 172 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+# 171 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
                                                                       __null
-# 172 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 171 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                                                           , SDL_FLIP_VERTICAL);
             SDL_RenderCopy(renderer, pipeTexture, 
-# 173 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+# 172 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
                                                  __null
-# 173 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 172 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                                      , &pipeBottom);
         }
 
         SDL_RenderCopy(renderer, birdTexture, 
-# 176 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+# 175 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
                                              __null
-# 176 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 175 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                                  , &bird);
         SDL_Rect groundRect = {0, SCREEN_HEIGHT - 140, SCREEN_WIDTH, 140};
         SDL_RenderCopy(renderer, groundTexture, 
-# 178 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+# 177 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
                                                __null
-# 178 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 177 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                                    , &groundRect);
     }
 
     SDL_RenderPresent(renderer);
 }
-
-
 
 void cleanUp() {
     SDL_DestroyTexture(background);
@@ -111215,9 +111212,9 @@ void cleanUp() {
 
 
 int 
-# 200 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
+# 197 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
    SDL_main
-# 200 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 197 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
        (int argc, char* argv[]) {
     init();
     while (isRunning) {
