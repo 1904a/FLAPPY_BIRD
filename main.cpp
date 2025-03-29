@@ -22,15 +22,14 @@ SDL_Texture* birdTexture = nullptr;
 SDL_Texture* pipeTexture = nullptr;
 SDL_Texture* groundTexture = nullptr;
 SDL_Texture* playButtonTexture = nullptr;
+SDL_Texture* gameOverTexture = nullptr;
 
 TTF_Font* font = nullptr;
 
-Mix_Music* bgm = nullptr;        // Nhạc nền
-Mix_Chunk* soundJump = nullptr;  // Âm thanh nhảy
-Mix_Chunk* soundHit = nullptr;   // Âm thanh va chạm
-Mix_Chunk* soundPoint = nullptr; // Âm thanh đạt điểm
-Mix_Chunk* soundGameOver = nullptr; // Âm thanh game over
-
+Mix_Chunk* soundJump = nullptr;
+Mix_Chunk* soundHit = nullptr;
+Mix_Chunk* soundPoint = nullptr;
+Mix_Chunk* soundGameOver = nullptr;
 
 
 int collisionOffset = 15;
@@ -74,29 +73,30 @@ void init() {
     pipeTexture = loadTexture("cot.png");
     groundTexture = loadTexture("ground.png");
     playButtonTexture = loadTexture("play_button.jpg");
+    gameOverTexture = loadTexture("GAME_OVER.png");
 
     font = TTF_OpenFont("Roboto_Condensed-Regular.ttf", 24);
     if (!font) {
         cerr << "Failed to load font: " << TTF_GetError() << endl;
     }
+
     // Khởi tạo SDL_mixer
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
 
-    // Load nhạc nền (MP3 -> Mix_Music)
-    bgm = Mix_LoadMUS("bgm.mp3");
 
-    // Load hiệu ứng âm thanh (WAV -> Mix_Chunk)
+    // Load hiệu ứng âm thanh (Mix_Chunk dùng cho âm thanh ngắn)
     soundJump = Mix_LoadWAV("jump.wav");
     soundHit = Mix_LoadWAV("hit.wav");
     soundPoint = Mix_LoadWAV("point.wav");
     soundGameOver = Mix_LoadWAV("gameover.wav");
 
     // Kiểm tra lỗi
-    if (!bgm || !soundJump || !soundHit || !soundPoint || !soundGameOver) {
+    if ( !soundJump || !soundHit || !soundPoint || !soundGameOver) {
         cerr << "Failed to load sound: " << Mix_GetError() << endl;
     }
-    Mix_PlayMusic(bgm, -1);
+
 }
+
 
 
 void handleInput() {
@@ -107,7 +107,6 @@ void handleInput() {
         if (showMenu && event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE) {
             showMenu = false;
             gameStarted = true;
-            Mix_HaltMusic();
         }
 
         if (!showMenu && !showGameOverScreen && event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE && !gameOver) {
@@ -128,16 +127,30 @@ void handleInput() {
         }
     }
 }
+void renderScore() {
+    SDL_Color white = {255, 255, 255, 255}; // Màu trắng
+    string scoreText = "Score: " + to_string(score);
 
+    // Tạo surface và texture từ font
+    SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, scoreText.c_str(), white);
+    SDL_Texture* message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
 
+    // Xác định vị trí hiển thị ở góc trên phải
+    SDL_Rect messageRect = {SCREEN_WIDTH - 150, 20, 130, 30};
 
+    // Vẽ điểm số lên màn hình
+    SDL_RenderCopy(renderer, message, NULL, &messageRect);
+
+    // Giải phóng bộ nhớ
+    SDL_FreeSurface(surfaceMessage);
+    SDL_DestroyTexture(message);
+}
 
 void update() {
     if (showMenu) return;
     if (!gameStarted) return;
     if (gameOver) {
         showGameOverScreen = true;
-        Mix_PlayMusic(bgm, -1);
         return;
     }
 
@@ -182,24 +195,9 @@ void render() {
     if (showMenu) {
         SDL_RenderCopy(renderer, playButtonTexture, NULL, &playButton);
     } else if (showGameOverScreen) {
-        SDL_Color navajoWhite2 = {238, 207, 161, 255};
-
-        // Hiển thị chữ "GAME OVER"
-        SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, "GAME OVER", navajoWhite2);
-        SDL_Texture* message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
-        SDL_Rect messageRect = {SCREEN_WIDTH / 3, SCREEN_HEIGHT / 3, 200, 50};
-        SDL_RenderCopy(renderer, message, NULL, &messageRect);
-        SDL_FreeSurface(surfaceMessage);
-        SDL_DestroyTexture(message);
-
-        // Hiển thị điểm số
-        string scoreText = "Score: " + to_string(score);
-        surfaceMessage = TTF_RenderText_Solid(font, scoreText.c_str(), navajoWhite2);
-        message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
-        messageRect = {SCREEN_WIDTH / 3, SCREEN_HEIGHT / 2, 200, 50};
-        SDL_RenderCopy(renderer, message, NULL, &messageRect);
-        SDL_FreeSurface(surfaceMessage);
-        SDL_DestroyTexture(message);
+        // Chỉ hiển thị ảnh "GAME OVER"
+        SDL_Rect gameOverRect = {SCREEN_WIDTH / 2 - 150, SCREEN_HEIGHT / 3, 300, 100};
+        SDL_RenderCopy(renderer, gameOverTexture, NULL, &gameOverRect);
     } else {
         for (const auto& pipe : pipes) {
             SDL_Rect pipeTop = {pipe.x, 0, PIPE_WIDTH, pipe.height};
@@ -212,7 +210,7 @@ void render() {
         SDL_Rect groundRect = {0, SCREEN_HEIGHT - 140, SCREEN_WIDTH, 140};
         SDL_RenderCopy(renderer, groundTexture, NULL, &groundRect);
     }
-
+    renderScore();
     SDL_RenderPresent(renderer);
 }
 
@@ -221,9 +219,9 @@ void cleanUp() {
     SDL_DestroyTexture(birdTexture);
     SDL_DestroyTexture(pipeTexture);
     SDL_DestroyTexture(groundTexture);
+    SDL_DestroyTexture(gameOverTexture);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
-    Mix_FreeMusic(bgm);
     Mix_FreeChunk(soundJump);
     Mix_FreeChunk(soundHit);
     Mix_FreeChunk(soundPoint);
@@ -238,7 +236,7 @@ void cleanUp() {
 
 int main(int argc, char* argv[]) {
     init();
-    Mix_PlayMusic(bgm, -1);
+
     while (isRunning) {
         handleInput();
         update();
