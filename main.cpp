@@ -1,5 +1,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include <vector>
 #include <iostream>
 using namespace std;
@@ -20,6 +21,7 @@ SDL_Texture* birdTexture = nullptr;
 SDL_Texture* pipeTexture = nullptr;
 SDL_Texture* groundTexture = nullptr;
 SDL_Texture* playButtonTexture = nullptr;
+TTF_Font* font = nullptr;
 int collisionOffset = 15;
 int score = 0;
 
@@ -32,10 +34,12 @@ vector<Pipe> pipes;
 SDL_Rect bird = {100, SCREEN_HEIGHT / 2, 50, 50};
 SDL_Rect playButton = {SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT / 2 - 25, 100, 50};
 int birdVelocity = 0;
+
 bool isRunning = true;
 bool gameOver = false;
 bool gameStarted = false; // Ban đầu trò chơi chưa bắt đầu
 bool showMenu = true;
+bool showGameOverScreen = false;
 
 SDL_Texture* loadTexture(const char* path) {
     SDL_Surface* surface = IMG_Load(path);
@@ -51,6 +55,7 @@ SDL_Texture* loadTexture(const char* path) {
 void init() {
     SDL_Init(SDL_INIT_VIDEO);
     IMG_Init(IMG_INIT_PNG);
+    TTF_Init(); // Khởi tạo SDL_ttf
     window = SDL_CreateWindow("Flappy Bird", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     background = loadTexture("background.png");
@@ -58,31 +63,37 @@ void init() {
     pipeTexture = loadTexture("cot.png");
     groundTexture = loadTexture("ground.png");
     playButtonTexture = loadTexture("play_button.jpg");
+
+    font = TTF_OpenFont("Roboto_Condensed-Regular.ttf", 24);
+    if (!font) {
+        cerr << "Failed to load font: " << TTF_GetError() << endl;
+    }
 }
+
 
 void handleInput() {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
         if (event.type == SDL_QUIT) isRunning = false;
 
-        // Nhấn SPACE để bắt đầu game từ menu
         if (showMenu && event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE) {
             showMenu = false;
             gameStarted = true;
         }
 
-        // Nếu đang trong game, nhấn SPACE để chim nhảy
-        if (!showMenu && event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE && !gameOver) {
+        if (!showMenu && !showGameOverScreen && event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE && !gameOver) {
             birdVelocity = JUMP_STRENGTH;
         }
 
-        // Nhấn R để reset game về menu
-        if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_r && gameOver) {
+        if (showGameOverScreen && event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE) {
+            // Reset game
             gameOver = false;
-            gameStarted = false;  // Trở về trạng thái menu
+            showGameOverScreen = false;
+            gameStarted = false;
             showMenu = true;
             bird.y = SCREEN_HEIGHT / 2;
             birdVelocity = 0;
+            score = 0;
             pipes.clear();
         }
     }
@@ -90,10 +101,14 @@ void handleInput() {
 
 
 
+
 void update() {
     if (showMenu) return;
     if (!gameStarted) return;
-    if (gameOver) return;
+    if (gameOver) {
+        showGameOverScreen = true;
+        return;
+    }
 
     birdVelocity += GRAVITY;
     bird.y += birdVelocity;
@@ -107,19 +122,22 @@ void update() {
         int randomHeight = rand() % (SCREEN_HEIGHT - GROUND_HEIGHT - PIPE_GAP - 200) + 100;
         pipes.push_back({SCREEN_WIDTH, randomHeight});
     }
+
     SDL_Rect birdHitbox = {bird.x + collisionOffset, bird.y + collisionOffset, bird.w - 2 * collisionOffset, bird.h - 2 * collisionOffset};
     for (auto& pipe : pipes) {
         if (bird.x > pipe.x + PIPE_WIDTH && !pipe.scored) {
-            pipe.scored = true;  // Đánh dấu cột đã được tính điểm
-            score++;  // Cộng điểm
+            pipe.scored = true;
+            score++;
         }
+
         if (birdHitbox.x + birdHitbox.w > pipe.x && birdHitbox.x < pipe.x + PIPE_WIDTH) {
             if (birdHitbox.y < pipe.height || birdHitbox.y + birdHitbox.h > pipe.height + PIPE_GAP) {
                 gameOver = true;
+            }
         }
     }
-    }
 }
+
 
 void render() {
     SDL_RenderClear(renderer);
@@ -127,6 +145,26 @@ void render() {
 
     if (showMenu) {
         SDL_RenderCopy(renderer, playButtonTexture, NULL, &playButton);
+    } else if (showGameOverScreen) {
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 150); // Màu nền mờ
+        SDL_Rect gameOverRect = {SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2};
+        SDL_RenderFillRect(renderer, &gameOverRect);
+
+        SDL_Color white = {255, 255, 255, 255};
+        SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, "GAME OVER", white);
+        SDL_Texture* message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
+        SDL_Rect messageRect = {SCREEN_WIDTH / 3, SCREEN_HEIGHT / 3, 200, 50};
+        SDL_RenderCopy(renderer, message, NULL, &messageRect);
+        SDL_FreeSurface(surfaceMessage);
+        SDL_DestroyTexture(message);
+
+        string scoreText = "Score: " + to_string(score);
+        surfaceMessage = TTF_RenderText_Solid(font, scoreText.c_str(), white);
+        message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
+        messageRect = {SCREEN_WIDTH / 3, SCREEN_HEIGHT / 2, 200, 50};
+        SDL_RenderCopy(renderer, message, NULL, &messageRect);
+        SDL_FreeSurface(surfaceMessage);
+        SDL_DestroyTexture(message);
     } else {
         for (const auto& pipe : pipes) {
             SDL_Rect pipeTop = {pipe.x, 0, PIPE_WIDTH, pipe.height};
@@ -139,8 +177,10 @@ void render() {
         SDL_Rect groundRect = {0, SCREEN_HEIGHT - 140, SCREEN_WIDTH, 140};
         SDL_RenderCopy(renderer, groundTexture, NULL, &groundRect);
     }
+
     SDL_RenderPresent(renderer);
 }
+
 
 
 void cleanUp() {
@@ -150,9 +190,12 @@ void cleanUp() {
     SDL_DestroyTexture(groundTexture);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+    TTF_CloseFont(font); // Giải phóng bộ nhớ font
+    TTF_Quit(); // Tắt SDL_ttf
     IMG_Quit();
     SDL_Quit();
 }
+
 
 int main(int argc, char* argv[]) {
     init();
