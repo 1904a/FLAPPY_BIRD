@@ -80188,6 +80188,249 @@ extern IMG_Animation * IMG_LoadWEBPAnimation_RW(SDL_RWops *src);
 # 1 "C:/msys64/ucrt64/include/SDL2/close_code.h" 1 3
 # 2194 "C:/msys64/ucrt64/include/SDL2/SDL_image.h" 2 3
 # 3 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 2
+# 1 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 1 3 4
+# 40 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+# 1 "C:/msys64/ucrt64/include/SDL2/begin_code.h" 1 3 4
+# 41 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 2 3 4
+
+
+
+extern "C" {
+# 112 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern const SDL_version * TTF_Linked_Version(void);
+# 127 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern void TTF_GetFreeTypeVersion(int *major, int *minor, int *patch);
+# 140 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern void TTF_GetHarfBuzzVersion(int *major, int *minor, int *patch);
+# 158 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern void TTF_ByteSwappedUNICODE(SDL_bool swapped);
+
+
+
+
+
+
+typedef struct TTF_Font TTF_Font;
+# 188 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern int TTF_Init(void);
+# 207 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern TTF_Font * TTF_OpenFont(const char *file, int ptsize);
+# 231 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern TTF_Font * TTF_OpenFontIndex(const char *file, int ptsize, long index);
+# 256 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern TTF_Font * TTF_OpenFontRW(SDL_RWops *src, int freesrc, int ptsize);
+# 286 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern TTF_Font * TTF_OpenFontIndexRW(SDL_RWops *src, int freesrc, int ptsize, long index);
+# 309 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern TTF_Font * TTF_OpenFontDPI(const char *file, int ptsize, unsigned int hdpi, unsigned int vdpi);
+# 337 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern TTF_Font * TTF_OpenFontIndexDPI(const char *file, int ptsize, long index, unsigned int hdpi, unsigned int vdpi);
+# 366 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern TTF_Font * TTF_OpenFontDPIRW(SDL_RWops *src, int freesrc, int ptsize, unsigned int hdpi, unsigned int vdpi);
+# 400 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern TTF_Font * TTF_OpenFontIndexDPIRW(SDL_RWops *src, int freesrc, int ptsize, long index, unsigned int hdpi, unsigned int vdpi);
+# 413 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern int TTF_SetFontSize(TTF_Font *font, int ptsize);
+# 428 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern int TTF_SetFontSizeDPI(TTF_Font *font, int ptsize, unsigned int hdpi, unsigned int vdpi);
+# 457 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern int TTF_GetFontStyle(const TTF_Font *font);
+# 479 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern void TTF_SetFontStyle(TTF_Font *font, int style);
+# 491 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern int TTF_GetFontOutline(const TTF_Font *font);
+# 503 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern void TTF_SetFontOutline(TTF_Font *font, int outline);
+# 533 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern int TTF_GetFontHinting(const TTF_Font *font);
+# 555 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern void TTF_SetFontHinting(TTF_Font *font, int hinting);
+# 580 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern int TTF_GetFontWrappedAlign(const TTF_Font *font);
+# 598 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern void TTF_SetFontWrappedAlign(TTF_Font *font, int align);
+# 610 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern int TTF_FontHeight(const TTF_Font *font);
+# 622 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern int TTF_FontAscent(const TTF_Font *font);
+# 634 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern int TTF_FontDescent(const TTF_Font *font);
+# 644 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern int TTF_FontLineSkip(const TTF_Font *font);
+# 654 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern void TTF_SetFontLineSkip(TTF_Font *font, int lineskip);
+# 664 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern int TTF_GetFontKerning(const TTF_Font *font);
+# 679 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern void TTF_SetFontKerning(TTF_Font *font, int allowed);
+# 689 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern long TTF_FontFaces(const TTF_Font *font);
+# 705 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern int TTF_FontFaceIsFixedWidth(const TTF_Font *font);
+# 721 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern const char * TTF_FontFaceFamilyName(const TTF_Font *font);
+# 737 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern const char * TTF_FontFaceStyleName(const TTF_Font *font);
+# 759 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern int TTF_GlyphIsProvided(TTF_Font *font, Uint16 ch);
+# 775 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern int TTF_GlyphIsProvided32(TTF_Font *font, Uint32 ch);
+# 800 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern int TTF_GlyphMetrics(TTF_Font *font, Uint16 ch,
+                        int *minx, int *maxx,
+                        int *miny, int *maxy, int *advance);
+# 821 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern int TTF_GlyphMetrics32(TTF_Font *font, Uint32 ch,
+                        int *minx, int *maxx,
+                        int *miny, int *maxy, int *advance);
+# 849 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern int TTF_SizeText(TTF_Font *font, const char *text, int *w, int *h);
+# 869 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern int TTF_SizeUTF8(TTF_Font *font, const char *text, int *w, int *h);
+# 894 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern int TTF_SizeUNICODE(TTF_Font *font, const Uint16 *text, int *w, int *h);
+# 923 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern int TTF_MeasureText(TTF_Font *font, const char *text, int measure_width, int *extent, int *count);
+# 947 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern int TTF_MeasureUTF8(TTF_Font *font, const char *text, int measure_width, int *extent, int *count);
+# 976 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern int TTF_MeasureUNICODE(TTF_Font *font, const Uint16 *text, int measure_width, int *extent, int *count);
+# 1010 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern SDL_Surface * TTF_RenderText_Solid(TTF_Font *font,
+                const char *text, SDL_Color fg);
+# 1041 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern SDL_Surface * TTF_RenderUTF8_Solid(TTF_Font *font,
+                const char *text, SDL_Color fg);
+# 1075 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern SDL_Surface * TTF_RenderUNICODE_Solid(TTF_Font *font,
+                const Uint16 *text, SDL_Color fg);
+# 1108 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern SDL_Surface * TTF_RenderText_Solid_Wrapped(TTF_Font *font,
+                const char *text, SDL_Color fg, Uint32 wrapLength);
+# 1137 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern SDL_Surface * TTF_RenderUTF8_Solid_Wrapped(TTF_Font *font,
+                const char *text, SDL_Color fg, Uint32 wrapLength);
+# 1170 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern SDL_Surface * TTF_RenderUNICODE_Solid_Wrapped(TTF_Font *font,
+                const Uint16 *text, SDL_Color fg, Uint32 wrapLength);
+# 1204 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern SDL_Surface * TTF_RenderGlyph_Solid(TTF_Font *font,
+                Uint16 ch, SDL_Color fg);
+# 1236 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern SDL_Surface * TTF_RenderGlyph32_Solid(TTF_Font *font,
+                Uint32 ch, SDL_Color fg);
+# 1273 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern SDL_Surface * TTF_RenderText_Shaded(TTF_Font *font,
+                const char *text, SDL_Color fg, SDL_Color bg);
+# 1304 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern SDL_Surface * TTF_RenderUTF8_Shaded(TTF_Font *font,
+                const char *text, SDL_Color fg, SDL_Color bg);
+# 1339 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern SDL_Surface * TTF_RenderUNICODE_Shaded(TTF_Font *font,
+                const Uint16 *text, SDL_Color fg, SDL_Color bg);
+# 1374 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern SDL_Surface * TTF_RenderText_Shaded_Wrapped(TTF_Font *font,
+                const char *text, SDL_Color fg, SDL_Color bg, Uint32 wrapLength);
+# 1404 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern SDL_Surface * TTF_RenderUTF8_Shaded_Wrapped(TTF_Font *font,
+                const char *text, SDL_Color fg, SDL_Color bg, Uint32 wrapLength);
+# 1438 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern SDL_Surface * TTF_RenderUNICODE_Shaded_Wrapped(TTF_Font *font,
+                const Uint16 *text, SDL_Color fg, SDL_Color bg, Uint32 wrapLength);
+# 1474 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern SDL_Surface * TTF_RenderGlyph_Shaded(TTF_Font *font,
+                Uint16 ch, SDL_Color fg, SDL_Color bg);
+# 1507 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern SDL_Surface * TTF_RenderGlyph32_Shaded(TTF_Font *font,
+                Uint32 ch, SDL_Color fg, SDL_Color bg);
+# 1542 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern SDL_Surface * TTF_RenderText_Blended(TTF_Font *font,
+                const char *text, SDL_Color fg);
+# 1571 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern SDL_Surface * TTF_RenderUTF8_Blended(TTF_Font *font,
+                const char *text, SDL_Color fg);
+# 1605 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern SDL_Surface * TTF_RenderUNICODE_Blended(TTF_Font *font,
+                const Uint16 *text, SDL_Color fg);
+# 1641 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern SDL_Surface * TTF_RenderText_Blended_Wrapped(TTF_Font *font,
+                const char *text, SDL_Color fg, Uint32 wrapLength);
+# 1673 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern SDL_Surface * TTF_RenderUTF8_Blended_Wrapped(TTF_Font *font,
+                const char *text, SDL_Color fg, Uint32 wrapLength);
+# 1709 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern SDL_Surface * TTF_RenderUNICODE_Blended_Wrapped(TTF_Font *font,
+                const Uint16 *text, SDL_Color fg, Uint32 wrapLength);
+# 1743 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern SDL_Surface * TTF_RenderGlyph_Blended(TTF_Font *font,
+                Uint16 ch, SDL_Color fg);
+# 1775 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern SDL_Surface * TTF_RenderGlyph32_Blended(TTF_Font *font,
+                Uint32 ch, SDL_Color fg);
+# 1811 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern SDL_Surface * TTF_RenderText_LCD(TTF_Font *font,
+                const char *text, SDL_Color fg, SDL_Color bg);
+# 1841 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern SDL_Surface * TTF_RenderUTF8_LCD(TTF_Font *font,
+                const char *text, SDL_Color fg, SDL_Color bg);
+# 1876 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern SDL_Surface * TTF_RenderUNICODE_LCD(TTF_Font *font,
+                const Uint16 *text, SDL_Color fg, SDL_Color bg);
+# 1911 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern SDL_Surface * TTF_RenderText_LCD_Wrapped(TTF_Font *font,
+                const char *text, SDL_Color fg, SDL_Color bg, Uint32 wrapLength);
+# 1942 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern SDL_Surface * TTF_RenderUTF8_LCD_Wrapped(TTF_Font *font,
+                const char *text, SDL_Color fg, SDL_Color bg, Uint32 wrapLength);
+# 1977 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern SDL_Surface * TTF_RenderUNICODE_LCD_Wrapped(TTF_Font *font,
+                const Uint16 *text, SDL_Color fg, SDL_Color bg, Uint32 wrapLength);
+# 2012 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern SDL_Surface * TTF_RenderGlyph_LCD(TTF_Font *font,
+                Uint16 ch, SDL_Color fg, SDL_Color bg);
+# 2044 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern SDL_Surface * TTF_RenderGlyph32_LCD(TTF_Font *font,
+                Uint32 ch, SDL_Color fg, SDL_Color bg);
+# 2082 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern void TTF_CloseFont(TTF_Font *font);
+# 2102 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern void TTF_Quit(void);
+# 2124 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern int TTF_WasInit(void);
+# 2145 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern __attribute__((deprecated)) int TTF_GetFontKerningSize(TTF_Font *font, int prev_index, int index);
+# 2168 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern int TTF_GetFontKerningSizeGlyphs(TTF_Font *font, Uint16 previous_ch, Uint16 ch);
+# 2185 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern int TTF_GetFontKerningSizeGlyphs32(TTF_Font *font, Uint32 previous_ch, Uint32 ch);
+# 2204 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern int TTF_SetFontSDF(TTF_Font *font, SDL_bool on_off);
+# 2217 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern SDL_bool TTF_GetFontSDF(const TTF_Font *font);
+# 2238 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+typedef enum TTF_Direction
+{
+  TTF_DIRECTION_LTR = 0,
+  TTF_DIRECTION_RTL,
+  TTF_DIRECTION_TTB,
+  TTF_DIRECTION_BTT
+} TTF_Direction;
+# 2268 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern __attribute__((deprecated)) int TTF_SetDirection(int direction);
+# 2291 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern __attribute__((deprecated)) int TTF_SetScript(int script);
+# 2314 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern int TTF_SetFontDirection(TTF_Font *font, TTF_Direction direction);
+# 2333 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 3 4
+extern int TTF_SetFontScriptName(TTF_Font *font, const char *script);
+
+
+
+}
+
+# 1 "C:/msys64/ucrt64/include/SDL2/close_code.h" 1 3 4
+# 2340 "C:/msys64/ucrt64/include/SDL2/SDL_ttf.h" 2 3 4
+# 4 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 2
 # 1 "C:/msys64/ucrt64/include/c++/14.2.0/iostream" 1 3
 # 36 "C:/msys64/ucrt64/include/c++/14.2.0/iostream" 3
        
@@ -105823,7 +106066,7 @@ namespace std
 # 85 "C:/msys64/ucrt64/include/c++/14.2.0/iostream" 3
 
 }
-# 4 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 2
+# 5 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 2
 # 1 "C:/msys64/ucrt64/include/c++/14.2.0/vector" 1 3
 # 58 "C:/msys64/ucrt64/include/c++/14.2.0/vector" 3
        
@@ -110732,10 +110975,11 @@ namespace std
     }
 
 }
-# 5 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 2
+# 6 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 2
 
 
-# 6 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+
+# 8 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
 using namespace std;
 
 const int SCREEN_WIDTH = 800;
@@ -110759,20 +111003,24 @@ SDL_Texture* birdTexture = nullptr;
 SDL_Texture* pipeTopTexture = nullptr;
 SDL_Texture* pipeBottomTexture = nullptr;
 SDL_Texture* groundTexture = nullptr;
+TTF_Font* font = nullptr;
 bool running = true;
 bool gameStarted = false;
 int birdY = (SCREEN_HEIGHT - GROUND_HEIGHT) / 2 - BIRD_HEIGHT / 2;
 int velocity = 0;
 vector<Pipe> pipes;
 int score = 0;
+string playerName = "";
+enum GameState { LOGIN, PLAYING, GAME_OVER };
+GameState gameState = LOGIN;
 
 SDL_Texture* loadTexture(const char* filePath) {
     SDL_Surface* surface = IMG_Load(filePath);
     if (!surface) {
         cout << "Failed to load image: " << filePath << " SDL_image Error: " << 
-# 39 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
+# 45 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
                                                                                SDL_GetError
-# 39 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 45 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                                                                            () << endl;
         return nullptr;
     }
@@ -110783,19 +111031,19 @@ SDL_Texture* loadTexture(const char* filePath) {
 
 void initSDL() {
     SDL_Init(
-# 48 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
+# 54 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
             0x00000020u
-# 48 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 54 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                           );
     IMG_Init(IMG_INIT_PNG);
     window = SDL_CreateWindow("Flappy Bird", 
-# 50 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
+# 56 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
                                             (0x2FFF0000u|(0))
-# 50 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 56 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                                                   , 
-# 50 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
+# 56 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
                                                                     (0x2FFF0000u|(0))
-# 50 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 56 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                                                                           , SCREEN_WIDTH, SCREEN_HEIGHT, 0);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     birdTexture = loadTexture("chim.png");
@@ -110843,16 +111091,59 @@ void update() {
         }
     }
 }
+void renderText(const std::string& text, int x, int y) {
+    SDL_Color color = {255, 255, 255};
+    SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), color);
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
 
+    SDL_Rect rect = {x, y, surface->w, surface->h};
+    SDL_RenderCopy(renderer, texture, 
+# 109 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+                                     __null
+# 109 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+                                         , &rect);
+
+    SDL_FreeSurface(surface);
+    SDL_DestroyTexture(texture);
+}
+void loginScreen(SDL_Event& e) {
+    SDL_RenderClear(renderer);
+    renderText("Enter your name:", 100, 100);
+    renderText(playerName, 100, 150);
+    SDL_RenderPresent(renderer);
+
+    while (SDL_PollEvent(&e)) {
+        if (e.type == SDL_QUIT) exit(0);
+        if (e.type == SDL_TEXTINPUT) playerName += e.text.text;
+        if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RETURN) {
+            gameState = PLAYING;
+        }
+    }
+}
+void gameOverScreen(SDL_Event& e) {
+    SDL_RenderClear(renderer);
+    renderText("Game Over!", 100, 100);
+    renderText("Score: " + std::to_string(score), 100, 150);
+    renderText("Press R to Restart or Q to Quit", 100, 200);
+    SDL_RenderPresent(renderer);
+
+    while (SDL_PollEvent(&e)) {
+        if (e.type == SDL_QUIT) exit(0);
+        if (e.type == SDL_KEYDOWN) {
+            if (e.key.keysym.sym == SDLK_r) gameState = LOGIN;
+            if (e.key.keysym.sym == SDLK_q) exit(0);
+        }
+    }
+}
 void render() {
     SDL_SetRenderDrawColor(renderer, 135, 206, 250, 255);
     SDL_RenderClear(renderer);
 
     SDL_Rect birdDst = {50, birdY, BIRD_WIDTH, BIRD_HEIGHT};
     SDL_RenderCopy(renderer, birdTexture, 
-# 103 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+# 148 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
                                          __null
-# 103 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 148 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                              , &birdDst);
 
     for (auto &pipe : pipes) {
@@ -110860,19 +111151,19 @@ void render() {
         SDL_Rect pipeDstBottom = {pipe.x, pipe.height + PIPE_GAP, PIPE_WIDTH, SCREEN_HEIGHT - pipe.height - PIPE_GAP - GROUND_HEIGHT};
         SDL_Rect groundDst = {0, SCREEN_HEIGHT - 550 , SCREEN_WIDTH, 550 };
         SDL_RenderCopy(renderer, pipeTopTexture, 
-# 109 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+# 154 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
                                                 __null
-# 109 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 154 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                                     , &pipeDstTop);
         SDL_RenderCopy(renderer, pipeBottomTexture, 
-# 110 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+# 155 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
                                                    __null
-# 110 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 155 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                                        , &pipeDstBottom);
         SDL_RenderCopy(renderer, groundTexture, 
-# 111 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+# 156 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
                                                __null
-# 111 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 156 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                                    , &groundDst);
     }
 
@@ -110891,11 +111182,29 @@ void clean() {
 }
 
 int 
-# 128 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
+# 173 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
    SDL_main
-# 128 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 173 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
        (int argc, char*argv[] ) {
+    SDL_Init(
+# 174 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
+            0x00000020u
+# 174 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+                          );
+    TTF_Init();
+    window = SDL_CreateWindow("Flappy Bird", 
+# 176 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
+                                            (0x2FFF0000u|(0))
+# 176 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+                                                                  , 
+# 176 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
+                                                                    (0x2FFF0000u|(0))
+# 176 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+                                                                                          , 800, 600, 0);
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    font = TTF_OpenFont("arial.ttf", 24);
     initSDL();
+
     while (running) {
         handleEvents();
         update();

@@ -78,7 +78,7 @@ build CMakeFiles/FLAPPY_BIRD.dir/CXX.dd | C$:/Users/duytu/CLionProjects/FLAPPY_B
 
 build FLAPPY_BIRD.exe: CXX_EXECUTABLE_LINKER__FLAPPY_BIRD_Debug CMakeFiles/FLAPPY_BIRD.dir/main.cpp.obj | C$:/msys64/ucrt64/lib/libSDL2main.a C$:/msys64/ucrt64/lib/libSDL2.dll.a
   FLAGS = -g
-  LINK_LIBRARIES = C:/msys64/ucrt64/lib/libSDL2main.a  C:/msys64/ucrt64/lib/libSDL2.dll.a  -lSDL2_image  -lshell32  -Wl,--undefined=WinMain  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
+  LINK_LIBRARIES = C:/msys64/ucrt64/lib/libSDL2main.a  C:/msys64/ucrt64/lib/libSDL2.dll.a  -lSDL2_image  -lSDL2_ttf  -lshell32  -Wl,--undefined=WinMain  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\FLAPPY_BIRD.dir
   POST_BUILD = cd .
   PRE_LINK = cd .

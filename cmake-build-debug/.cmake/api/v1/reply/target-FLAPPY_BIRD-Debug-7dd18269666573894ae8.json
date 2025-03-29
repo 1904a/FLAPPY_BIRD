@@ -138,6 +138,11 @@
 				"role" : "libraries"
 			},
 			{
+				"backtrace" : 2,
+				"fragment" : "-lSDL2_ttf",
+				"role" : "libraries"
+			},
+			{
 				"backtrace" : 7,
 				"fragment" : "-lshell32",
 				"role" : "libraries"

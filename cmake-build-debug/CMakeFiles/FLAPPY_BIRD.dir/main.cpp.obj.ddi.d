@@ -248,6 +248,7 @@ CMakeFiles\FLAPPY_BIRD.dir\main.cpp.obj.ddi: \
  C:/msys64/ucrt64/include/SDL2/SDL_misc.h \
  C:/msys64/ucrt64/include/SDL2/SDL_image.h \
  C:/msys64/ucrt64/include/SDL2/SDL.h \
+ C:/msys64/ucrt64/include/SDL2/SDL_ttf.h \
  C:/msys64/ucrt64/include/c++/14.2.0/iostream \
  C:/msys64/ucrt64/include/c++/14.2.0/ostream \
  C:/msys64/ucrt64/include/c++/14.2.0/ios \

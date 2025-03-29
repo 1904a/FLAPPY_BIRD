@@ -13,5 +13,5 @@ find_package(SDL2_image REQUIRED)
 add_executable(FLAPPY_BIRD main.cpp)
 
 target_include_directories(FLAPPY_BIRD PRIVATE ${SDL2_INCLUDE_DIRS})
-target_link_libraries(FLAPPY_BIRD ${SDL2_LIBRARIES} SDL2_image)
+target_link_libraries(FLAPPY_BIRD ${SDL2_LIBRARIES} SDL2_image SDL2_ttf)
 

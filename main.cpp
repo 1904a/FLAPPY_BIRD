@@ -111,6 +111,35 @@ void renderText(const std::string& text, int x, int y) {
     SDL_FreeSurface(surface);
     SDL_DestroyTexture(texture);
 }
+void loginScreen(SDL_Event& e) {
+    SDL_RenderClear(renderer);
+    renderText("Enter your name:", 100, 100);
+    renderText(playerName, 100, 150);
+    SDL_RenderPresent(renderer);
+
+    while (SDL_PollEvent(&e)) {
+        if (e.type == SDL_QUIT) exit(0);
+        if (e.type == SDL_TEXTINPUT) playerName += e.text.text;
+        if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_RETURN) {
+            gameState = PLAYING;
+        }
+    }
+}
+void gameOverScreen(SDL_Event& e) {
+    SDL_RenderClear(renderer);
+    renderText("Game Over!", 100, 100);
+    renderText("Score: " + std::to_string(score), 100, 150);
+    renderText("Press R to Restart or Q to Quit", 100, 200);
+    SDL_RenderPresent(renderer);
+
+    while (SDL_PollEvent(&e)) {
+        if (e.type == SDL_QUIT) exit(0);
+        if (e.type == SDL_KEYDOWN) {
+            if (e.key.keysym.sym == SDLK_r) gameState = LOGIN;
+            if (e.key.keysym.sym == SDLK_q) exit(0);
+        }
+    }
+}
 void render() {
     SDL_SetRenderDrawColor(renderer, 135, 206, 250, 255);
     SDL_RenderClear(renderer);
@@ -141,15 +170,42 @@ void clean() {
     SDL_Quit();
 }
 
-int main(int argc, char*argv[] ) {
+int main(int argc, char* argv[]) {
+    SDL_Init(SDL_INIT_VIDEO);
+    TTF_Init();
+    window = SDL_CreateWindow("Flappy Bird", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    font = TTF_OpenFont("arial.ttf", 24);
     initSDL();
+
+    SDL_StartTextInput(); // Bật nhập liệu văn bản
+    SDL_Event event;
+
     while (running) {
-        handleEvents();
-        update();
-        render();
-        SDL_Delay(16);
+        while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_QUIT) running = false;
+
+            if (gameState == LOGIN) {
+                loginScreen(event);
+            } else if (gameState == PLAYING) {
+                handleEvents();
+            } else if (gameState == GAME_OVER) {
+                gameOverScreen(event);
+            }
+        }
+
+        if (gameState == LOGIN || gameState == GAME_OVER) {
+            SDL_Delay(100); // Giảm tải CPU khi ở màn hình login/game over
+        } else {
+            update();
+            render();
+            SDL_Delay(16);
+        }
     }
+
+    SDL_StopTextInput(); // Tắt nhập liệu khi thoát game
     clean();
     cout << "Game Over! Score: " << score << endl;
     return 0;
 }
+
