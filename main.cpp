@@ -1,18 +1,20 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL_ttf.h>
 #include <iostream>
 #include <vector>
+#include <string>
 
 using namespace std;
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
-const int GROUND_HEIGHT = 50;
-const int BIRD_WIDTH = 34;
-const int BIRD_HEIGHT = 24;
+const int GROUND_HEIGHT = 70;
+const int BIRD_WIDTH = 40;
+const int BIRD_HEIGHT = 34;
 const int GRAVITY = 1;
 const int JUMP_STRENGTH = -15;
-const int PIPE_WIDTH = 52;
+const int PIPE_WIDTH = 100;
 const int PIPE_GAP = 150;
 const int PIPE_SPEED = 4;
 
@@ -22,14 +24,20 @@ struct Pipe {
 
 SDL_Window* window = nullptr;
 SDL_Renderer* renderer = nullptr;
-SDL_Texture* spriteSheet = nullptr;
-SDL_Texture* pipeTexture = nullptr;
+SDL_Texture* birdTexture = nullptr;
+SDL_Texture* pipeTopTexture = nullptr;
+SDL_Texture* pipeBottomTexture = nullptr;
+SDL_Texture* groundTexture = nullptr;
+TTF_Font* font = nullptr;
 bool running = true;
 bool gameStarted = false;
 int birdY = (SCREEN_HEIGHT - GROUND_HEIGHT) / 2 - BIRD_HEIGHT / 2;
 int velocity = 0;
 vector<Pipe> pipes;
 int score = 0;
+string playerName = "";
+enum GameState { LOGIN, PLAYING, GAME_OVER };
+GameState gameState = LOGIN;//login screen
 
 SDL_Texture* loadTexture(const char* filePath) {
     SDL_Surface* surface = IMG_Load(filePath);
@@ -47,8 +55,10 @@ void initSDL() {
     IMG_Init(IMG_INIT_PNG);
     window = SDL_CreateWindow("Flappy Bird", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    spriteSheet = loadTexture("fpBird.png");
-    pipeTexture = loadTexture("cot.png");
+    birdTexture = loadTexture("chim.png");
+    pipeTopTexture = loadTexture("cot1.png");
+    pipeBottomTexture = loadTexture("cot.png");
+    groundTexture = loadTexture("ground.png"); // Đảm bảo bạn có file ground.png
 }
 
 void handleEvents() {
@@ -90,40 +100,48 @@ void update() {
         }
     }
 }
+void renderText(const std::string& text, int x, int y) {
+    SDL_Color color = {255, 255, 255};
+    SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), color);
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
 
+    SDL_Rect rect = {x, y, surface->w, surface->h};
+    SDL_RenderCopy(renderer, texture, NULL, &rect);
+
+    SDL_FreeSurface(surface);
+    SDL_DestroyTexture(texture);
+}
 void render() {
     SDL_SetRenderDrawColor(renderer, 135, 206, 250, 255);
     SDL_RenderClear(renderer);
 
-    SDL_Rect birdSrc = { 30, 225, 34, 24 };
-    SDL_Rect birdDst = {50, birdY, 34, 24};
-    SDL_RenderCopy(renderer, spriteSheet, &birdSrc, &birdDst);
+    SDL_Rect birdDst = {50, birdY, BIRD_WIDTH, BIRD_HEIGHT};
+    SDL_RenderCopy(renderer, birdTexture, NULL, &birdDst);
 
     for (auto &pipe : pipes) {
         SDL_Rect pipeDstTop = {pipe.x, 0, PIPE_WIDTH, pipe.height};
         SDL_Rect pipeDstBottom = {pipe.x, pipe.height + PIPE_GAP, PIPE_WIDTH, SCREEN_HEIGHT - pipe.height - PIPE_GAP - GROUND_HEIGHT};
-
-        SDL_RenderCopy(renderer, pipeTexture, NULL, &pipeDstTop);
-        SDL_RenderCopyEx(renderer, pipeTexture, NULL, &pipeDstBottom, 0, NULL, SDL_FLIP_VERTICAL);
+        SDL_Rect groundDst = {0, SCREEN_HEIGHT - 550 , SCREEN_WIDTH, 550 };
+        SDL_RenderCopy(renderer, pipeTopTexture, NULL, &pipeDstTop);
+        SDL_RenderCopy(renderer, pipeBottomTexture, NULL, &pipeDstBottom);
+        SDL_RenderCopy(renderer, groundTexture, NULL, &groundDst);
     }
-
-    SDL_Rect groundSrc = { 0, 400, SCREEN_WIDTH, 50 };
-    SDL_Rect groundDst = {0, SCREEN_HEIGHT - GROUND_HEIGHT, SCREEN_WIDTH, GROUND_HEIGHT};
-    SDL_RenderCopy(renderer, spriteSheet, &groundSrc, &groundDst);
 
     SDL_RenderPresent(renderer);
 }
 
 void clean() {
-    SDL_DestroyTexture(spriteSheet);
-    SDL_DestroyTexture(pipeTexture);
+    SDL_DestroyTexture(birdTexture);
+    SDL_DestroyTexture(pipeTopTexture);
+    SDL_DestroyTexture(pipeBottomTexture);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+    SDL_DestroyTexture(groundTexture);
     IMG_Quit();
     SDL_Quit();
 }
 
-int main(int argc, char *argv[]) {
+int main(int argc, char*argv[] ) {
     initSDL();
     while (running) {
         handleEvents();

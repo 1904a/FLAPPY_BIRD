@@ -110740,12 +110740,12 @@ using namespace std;
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
-const int GROUND_HEIGHT = 50;
-const int BIRD_WIDTH = 34;
-const int BIRD_HEIGHT = 24;
+const int GROUND_HEIGHT = 70;
+const int BIRD_WIDTH = 40;
+const int BIRD_HEIGHT = 34;
 const int GRAVITY = 1;
 const int JUMP_STRENGTH = -15;
-const int PIPE_WIDTH = 52;
+const int PIPE_WIDTH = 100;
 const int PIPE_GAP = 150;
 const int PIPE_SPEED = 4;
 
@@ -110755,8 +110755,10 @@ struct Pipe {
 
 SDL_Window* window = nullptr;
 SDL_Renderer* renderer = nullptr;
-SDL_Texture* spriteSheet = nullptr;
-SDL_Texture* pipeTexture = nullptr;
+SDL_Texture* birdTexture = nullptr;
+SDL_Texture* pipeTopTexture = nullptr;
+SDL_Texture* pipeBottomTexture = nullptr;
+SDL_Texture* groundTexture = nullptr;
 bool running = true;
 bool gameStarted = false;
 int birdY = (SCREEN_HEIGHT - GROUND_HEIGHT) / 2 - BIRD_HEIGHT / 2;
@@ -110768,9 +110770,9 @@ SDL_Texture* loadTexture(const char* filePath) {
     SDL_Surface* surface = IMG_Load(filePath);
     if (!surface) {
         cout << "Failed to load image: " << filePath << " SDL_image Error: " << 
-# 37 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
+# 39 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
                                                                                SDL_GetError
-# 37 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 39 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                                                                            () << endl;
         return nullptr;
     }
@@ -110781,23 +110783,25 @@ SDL_Texture* loadTexture(const char* filePath) {
 
 void initSDL() {
     SDL_Init(
-# 46 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
+# 48 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
             0x00000020u
-# 46 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 48 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                           );
     IMG_Init(IMG_INIT_PNG);
     window = SDL_CreateWindow("Flappy Bird", 
-# 48 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
+# 50 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
                                             (0x2FFF0000u|(0))
-# 48 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 50 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                                                   , 
-# 48 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
+# 50 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
                                                                     (0x2FFF0000u|(0))
-# 48 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 50 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                                                                           , SCREEN_WIDTH, SCREEN_HEIGHT, 0);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    spriteSheet = loadTexture("fpBird.png");
-    pipeTexture = loadTexture("cot.png");
+    birdTexture = loadTexture("chim.png");
+    pipeTopTexture = loadTexture("cot1.png");
+    pipeBottomTexture = loadTexture("cot.png");
+    groundTexture = loadTexture("ground.png");
 }
 
 void handleEvents() {
@@ -110844,51 +110848,53 @@ void render() {
     SDL_SetRenderDrawColor(renderer, 135, 206, 250, 255);
     SDL_RenderClear(renderer);
 
-    SDL_Rect birdSrc = { 30, 225, 34, 24 };
-    SDL_Rect birdDst = {50, birdY, 34, 24};
-    SDL_RenderCopy(renderer, spriteSheet, &birdSrc, &birdDst);
+    SDL_Rect birdDst = {50, birdY, BIRD_WIDTH, BIRD_HEIGHT};
+    SDL_RenderCopy(renderer, birdTexture, 
+# 103 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+                                         __null
+# 103 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+                                             , &birdDst);
 
     for (auto &pipe : pipes) {
         SDL_Rect pipeDstTop = {pipe.x, 0, PIPE_WIDTH, pipe.height};
         SDL_Rect pipeDstBottom = {pipe.x, pipe.height + PIPE_GAP, PIPE_WIDTH, SCREEN_HEIGHT - pipe.height - PIPE_GAP - GROUND_HEIGHT};
-
-        SDL_RenderCopy(renderer, pipeTexture, 
-# 106 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
-                                             __null
-# 106 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
-                                                 , &pipeDstTop);
-        SDL_RenderCopyEx(renderer, pipeTexture, 
-# 107 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+        SDL_Rect groundDst = {0, SCREEN_HEIGHT - 550 , SCREEN_WIDTH, 550 };
+        SDL_RenderCopy(renderer, pipeTopTexture, 
+# 109 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+                                                __null
+# 109 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+                                                    , &pipeDstTop);
+        SDL_RenderCopy(renderer, pipeBottomTexture, 
+# 110 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+                                                   __null
+# 110 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+                                                       , &pipeDstBottom);
+        SDL_RenderCopy(renderer, groundTexture, 
+# 111 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
                                                __null
-# 107 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
-                                                   , &pipeDstBottom, 0, 
-# 107 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
-                                                                        __null
-# 107 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
-                                                                            , SDL_FLIP_VERTICAL);
+# 111 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+                                                   , &groundDst);
     }
-
-    SDL_Rect groundSrc = { 0, 400, SCREEN_WIDTH, 50 };
-    SDL_Rect groundDst = {0, SCREEN_HEIGHT - GROUND_HEIGHT, SCREEN_WIDTH, GROUND_HEIGHT};
-    SDL_RenderCopy(renderer, spriteSheet, &groundSrc, &groundDst);
 
     SDL_RenderPresent(renderer);
 }
 
 void clean() {
-    SDL_DestroyTexture(spriteSheet);
-    SDL_DestroyTexture(pipeTexture);
+    SDL_DestroyTexture(birdTexture);
+    SDL_DestroyTexture(pipeTopTexture);
+    SDL_DestroyTexture(pipeBottomTexture);
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+    SDL_DestroyTexture(groundTexture);
     IMG_Quit();
     SDL_Quit();
 }
 
 int 
-# 126 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
+# 128 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
    SDL_main
-# 126 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
-       (int argc, char *argv[]) {
+# 128 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+       (int argc, char*argv[] ) {
     initSDL();
     while (running) {
         handleEvents();
