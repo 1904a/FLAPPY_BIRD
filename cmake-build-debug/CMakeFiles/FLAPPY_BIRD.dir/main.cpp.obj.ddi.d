@@ -248,20 +248,45 @@ CMakeFiles\FLAPPY_BIRD.dir\main.cpp.obj.ddi: \
  C:/msys64/ucrt64/include/SDL2/SDL_misc.h \
  C:/msys64/ucrt64/include/SDL2/SDL_image.h \
  C:/msys64/ucrt64/include/SDL2/SDL.h \
- C:/msys64/ucrt64/include/SDL2/SDL_ttf.h \
+ C:/msys64/ucrt64/include/c++/14.2.0/vector \
+ C:/msys64/ucrt64/include/c++/14.2.0/bits/allocator.h \
+ C:/msys64/ucrt64/include/c++/14.2.0/x86_64-w64-mingw32/bits/c++allocator.h \
+ C:/msys64/ucrt64/include/c++/14.2.0/bits/new_allocator.h \
+ C:/msys64/ucrt64/include/c++/14.2.0/bits/memoryfwd.h \
+ C:/msys64/ucrt64/include/c++/14.2.0/bits/stl_uninitialized.h \
+ C:/msys64/ucrt64/include/c++/14.2.0/ext/alloc_traits.h \
+ C:/msys64/ucrt64/include/c++/14.2.0/bits/alloc_traits.h \
+ C:/msys64/ucrt64/include/c++/14.2.0/bits/stl_vector.h \
+ C:/msys64/ucrt64/include/c++/14.2.0/initializer_list \
+ C:/msys64/ucrt64/include/c++/14.2.0/bits/stl_bvector.h \
+ C:/msys64/ucrt64/include/c++/14.2.0/bits/functional_hash.h \
+ C:/msys64/ucrt64/include/c++/14.2.0/bits/hash_bytes.h \
+ C:/msys64/ucrt64/include/c++/14.2.0/bits/refwrap.h \
+ C:/msys64/ucrt64/include/c++/14.2.0/bits/invoke.h \
+ C:/msys64/ucrt64/include/c++/14.2.0/bits/stl_function.h \
+ C:/msys64/ucrt64/include/c++/14.2.0/backward/binders.h \
+ C:/msys64/ucrt64/include/c++/14.2.0/bits/range_access.h \
+ C:/msys64/ucrt64/include/c++/14.2.0/bits/vector.tcc \
+ C:/msys64/ucrt64/include/c++/14.2.0/bits/memory_resource.h \
+ C:/msys64/ucrt64/include/c++/14.2.0/cstddef \
+ C:/msys64/ucrt64/include/c++/14.2.0/bits/uses_allocator.h \
+ C:/msys64/ucrt64/include/c++/14.2.0/bits/uses_allocator_args.h \
+ C:/msys64/ucrt64/include/c++/14.2.0/tuple \
+ C:/msys64/ucrt64/include/c++/14.2.0/bits/ranges_util.h \
+ C:/msys64/ucrt64/include/c++/14.2.0/bits/ranges_base.h \
+ C:/msys64/ucrt64/include/c++/14.2.0/bits/max_size_type.h \
+ C:/msys64/ucrt64/include/c++/14.2.0/numbers \
  C:/msys64/ucrt64/include/c++/14.2.0/iostream \
  C:/msys64/ucrt64/include/c++/14.2.0/ostream \
  C:/msys64/ucrt64/include/c++/14.2.0/ios \
  C:/msys64/ucrt64/include/c++/14.2.0/iosfwd \
  C:/msys64/ucrt64/include/c++/14.2.0/bits/stringfwd.h \
- C:/msys64/ucrt64/include/c++/14.2.0/bits/memoryfwd.h \
  C:/msys64/ucrt64/include/c++/14.2.0/bits/postypes.h \
  C:/msys64/ucrt64/include/c++/14.2.0/cwchar \
  C:/msys64/ucrt64/include/c++/14.2.0/exception \
  C:/msys64/ucrt64/include/c++/14.2.0/bits/exception_ptr.h \
  C:/msys64/ucrt64/include/c++/14.2.0/bits/cxxabi_init_exception.h \
  C:/msys64/ucrt64/include/c++/14.2.0/typeinfo \
- C:/msys64/ucrt64/include/c++/14.2.0/bits/hash_bytes.h \
  C:/msys64/ucrt64/include/c++/14.2.0/bits/nested_exception.h \
  C:/msys64/ucrt64/include/c++/14.2.0/bits/char_traits.h \
  C:/msys64/ucrt64/include/c++/14.2.0/bits/localefwd.h \
@@ -285,37 +310,16 @@ CMakeFiles\FLAPPY_BIRD.dir\main.cpp.obj.ddi: \
  C:/msys64/ucrt64/include/c++/14.2.0/x86_64-w64-mingw32/bits/atomic_word.h \
  C:/msys64/ucrt64/include/c++/14.2.0/bits/locale_classes.h \
  C:/msys64/ucrt64/include/c++/14.2.0/string \
- C:/msys64/ucrt64/include/c++/14.2.0/bits/allocator.h \
- C:/msys64/ucrt64/include/c++/14.2.0/x86_64-w64-mingw32/bits/c++allocator.h \
- C:/msys64/ucrt64/include/c++/14.2.0/bits/new_allocator.h \
  C:/msys64/ucrt64/include/c++/14.2.0/bits/ostream_insert.h \
  C:/msys64/ucrt64/include/c++/14.2.0/bits/cxxabi_forced.h \
- C:/msys64/ucrt64/include/c++/14.2.0/bits/stl_function.h \
- C:/msys64/ucrt64/include/c++/14.2.0/backward/binders.h \
- C:/msys64/ucrt64/include/c++/14.2.0/bits/refwrap.h \
- C:/msys64/ucrt64/include/c++/14.2.0/bits/invoke.h \
- C:/msys64/ucrt64/include/c++/14.2.0/bits/range_access.h \
- C:/msys64/ucrt64/include/c++/14.2.0/initializer_list \
  C:/msys64/ucrt64/include/c++/14.2.0/bits/basic_string.h \
- C:/msys64/ucrt64/include/c++/14.2.0/ext/alloc_traits.h \
- C:/msys64/ucrt64/include/c++/14.2.0/bits/alloc_traits.h \
  C:/msys64/ucrt64/include/c++/14.2.0/string_view \
- C:/msys64/ucrt64/include/c++/14.2.0/bits/functional_hash.h \
- C:/msys64/ucrt64/include/c++/14.2.0/bits/ranges_base.h \
- C:/msys64/ucrt64/include/c++/14.2.0/bits/max_size_type.h \
- C:/msys64/ucrt64/include/c++/14.2.0/numbers \
  C:/msys64/ucrt64/include/c++/14.2.0/bits/string_view.tcc \
  C:/msys64/ucrt64/include/c++/14.2.0/ext/string_conversions.h \
  C:/msys64/ucrt64/include/c++/14.2.0/cstdio \
  C:/msys64/ucrt64/include/c++/14.2.0/cerrno \
  C:/msys64/ucrt64/include/c++/14.2.0/bits/charconv.h \
  C:/msys64/ucrt64/include/c++/14.2.0/bits/basic_string.tcc \
- C:/msys64/ucrt64/include/c++/14.2.0/bits/memory_resource.h \
- C:/msys64/ucrt64/include/c++/14.2.0/cstddef \
- C:/msys64/ucrt64/include/c++/14.2.0/bits/uses_allocator.h \
- C:/msys64/ucrt64/include/c++/14.2.0/bits/uses_allocator_args.h \
- C:/msys64/ucrt64/include/c++/14.2.0/tuple \
- C:/msys64/ucrt64/include/c++/14.2.0/bits/ranges_util.h \
  C:/msys64/ucrt64/include/c++/14.2.0/bits/locale_classes.tcc \
  C:/msys64/ucrt64/include/c++/14.2.0/system_error \
  C:/msys64/ucrt64/include/c++/14.2.0/x86_64-w64-mingw32/bits/error_constants.h \
@@ -333,9 +337,4 @@ CMakeFiles\FLAPPY_BIRD.dir\main.cpp.obj.ddi: \
  C:/msys64/ucrt64/include/c++/14.2.0/bits/basic_ios.tcc \
  C:/msys64/ucrt64/include/c++/14.2.0/bits/ostream.tcc \
  C:/msys64/ucrt64/include/c++/14.2.0/istream \
- C:/msys64/ucrt64/include/c++/14.2.0/bits/istream.tcc \
- C:/msys64/ucrt64/include/c++/14.2.0/vector \
- C:/msys64/ucrt64/include/c++/14.2.0/bits/stl_uninitialized.h \
- C:/msys64/ucrt64/include/c++/14.2.0/bits/stl_vector.h \
- C:/msys64/ucrt64/include/c++/14.2.0/bits/stl_bvector.h \
- C:/msys64/ucrt64/include/c++/14.2.0/bits/vector.tcc
+ C:/msys64/ucrt64/include/c++/14.2.0/bits/istream.tcc
