@@ -1,0 +1,3 @@
+C:/Users/duytu/CLionProjects/FLAPPY_BIRD/cmake-build-debug/CMakeFiles/FLAPPY_BIRD.dir
+C:/Users/duytu/CLionProjects/FLAPPY_BIRD/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/duytu/CLionProjects/FLAPPY_BIRD/cmake-build-debug/CMakeFiles/rebuild_cache.dir
