@@ -51,6 +51,7 @@ SDL_Texture* loadTexture(const char* filePath) {
 }
 
 void initSDL() {
+    TTF_Init();
     SDL_Init(SDL_INIT_VIDEO);
     IMG_Init(IMG_INIT_PNG);
     window = SDL_CreateWindow("Flappy Bird", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
@@ -136,7 +137,7 @@ void gameOverScreen(SDL_Event& e) {
     renderText("Press R to Restart or Q to Quit", 100, 200);
     SDL_RenderPresent(renderer);
 
-    while (SDL_PollEvent(&e)) {
+    if (SDL_PollEvent(&e)) { // Bỏ while
         if (e.type == SDL_QUIT) exit(0);
         if (e.type == SDL_KEYDOWN) {
             if (e.key.keysym.sym == SDLK_r) gameState = LOGIN;
@@ -144,6 +145,7 @@ void gameOverScreen(SDL_Event& e) {
         }
     }
 }
+
 void render() {
     SDL_SetRenderDrawColor(renderer, 135, 206, 250, 255);
     SDL_RenderClear(renderer);
@@ -179,9 +181,7 @@ int main(int argc, char* argv[]) {
     TTF_Init();
     window = SDL_CreateWindow("Flappy Bird", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    font = TTF_OpenFont("arial.ttf", 24);
-    initSDL();
-
+    font = TTF_OpenFont("C:/Windows/Fonts/times.ttf", 24);
     SDL_StartTextInput(); // Bật nhập liệu văn bản
     SDL_Event event;
 

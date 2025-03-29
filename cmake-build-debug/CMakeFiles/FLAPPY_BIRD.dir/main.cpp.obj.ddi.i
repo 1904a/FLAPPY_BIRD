@@ -111030,20 +111030,21 @@ SDL_Texture* loadTexture(const char* filePath) {
 }
 
 void initSDL() {
+    TTF_Init();
     SDL_Init(
-# 54 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
+# 55 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
             0x00000020u
-# 54 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 55 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                           );
     IMG_Init(IMG_INIT_PNG);
     window = SDL_CreateWindow("Flappy Bird", 
-# 56 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
+# 57 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
                                             (0x2FFF0000u|(0))
-# 56 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 57 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                                                   , 
-# 56 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
+# 57 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
                                                                     (0x2FFF0000u|(0))
-# 56 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 57 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                                                                           , SCREEN_WIDTH, SCREEN_HEIGHT, 0);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     birdTexture = loadTexture("chim.png");
@@ -111098,9 +111099,9 @@ void renderText(const std::string& text, int x, int y) {
 
     SDL_Rect rect = {x, y, surface->w, surface->h};
     SDL_RenderCopy(renderer, texture, 
-# 109 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+# 110 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
                                      __null
-# 109 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 110 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                          , &rect);
 
     SDL_FreeSurface(surface);
@@ -111131,7 +111132,7 @@ void gameOverScreen(SDL_Event& e) {
     renderText("Press R to Restart or Q to Quit", 100, 200);
     SDL_RenderPresent(renderer);
 
-    while (SDL_PollEvent(&e)) {
+    if (SDL_PollEvent(&e)) {
         if (e.type == SDL_QUIT) exit(0);
         if (e.type == SDL_KEYDOWN) {
             if (e.key.keysym.sym == SDLK_r) gameState = LOGIN;
@@ -111139,15 +111140,16 @@ void gameOverScreen(SDL_Event& e) {
         }
     }
 }
+
 void render() {
     SDL_SetRenderDrawColor(renderer, 135, 206, 250, 255);
     SDL_RenderClear(renderer);
 
     SDL_Rect birdDst = {50, birdY, BIRD_WIDTH, BIRD_HEIGHT};
     SDL_RenderCopy(renderer, birdTexture, 
-# 152 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+# 154 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
                                          __null
-# 152 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 154 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                              , &birdDst);
 
     for (auto &pipe : pipes) {
@@ -111155,19 +111157,19 @@ void render() {
         SDL_Rect pipeDstBottom = {pipe.x, pipe.height + PIPE_GAP, PIPE_WIDTH, SCREEN_HEIGHT - pipe.height - PIPE_GAP - GROUND_HEIGHT};
         SDL_Rect groundDst = {0, SCREEN_HEIGHT - 550 , SCREEN_WIDTH, 550 };
         SDL_RenderCopy(renderer, pipeTopTexture, 
-# 158 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+# 160 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
                                                 __null
-# 158 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 160 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                                     , &pipeDstTop);
         SDL_RenderCopy(renderer, pipeBottomTexture, 
-# 159 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+# 161 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
                                                    __null
-# 159 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 161 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                                        , &pipeDstBottom);
         SDL_RenderCopy(renderer, groundTexture, 
-# 160 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
+# 162 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3 4
                                                __null
-# 160 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 162 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                                    , &groundDst);
     }
 
@@ -111186,29 +111188,27 @@ void clean() {
 }
 
 int 
-# 177 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
+# 179 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
    SDL_main
-# 177 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 179 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
        (int argc, char* argv[]) {
     SDL_Init(
-# 178 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
+# 180 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
             0x00000020u
-# 178 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 180 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                           );
     TTF_Init();
     window = SDL_CreateWindow("Flappy Bird", 
-# 180 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
+# 182 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
                                             (0x2FFF0000u|(0))
-# 180 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 182 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                                                   , 
-# 180 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
+# 182 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp" 3
                                                                     (0x2FFF0000u|(0))
-# 180 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
+# 182 "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/main.cpp"
                                                                                           , SCREEN_WIDTH, SCREEN_HEIGHT, 0);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    font = TTF_OpenFont("arial.ttf", 24);
-    initSDL();
-
+    font = TTF_OpenFont("C:/Windows/Fonts/times.ttf", 24);
     SDL_StartTextInput();
     SDL_Event event;
 
