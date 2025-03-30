@@ -1,4 +1,4 @@
 C:\msys64\ucrt64\bin\cmake.exe -DCMAKE_BUILD_TYPE=Debug "-DCMAKE_MAKE_PROGRAM=C:/Program Files/JetBrains/CLion 2024.3.4/bin/ninja/win/x64/ninja.exe" -DCMAKE_C_COMPILER=C:/msys64/ucrt64/bin/gcc.exe -DCMAKE_CXX_COMPILER=C:/msys64/ucrt64/bin/g++.exe -G Ninja -S C:\Users\duytu\CLionProjects\FLAPPY_BIRD -B C:\Users\duytu\CLionProjects\FLAPPY_BIRD\cmake-build-debug
--- Configuring done (8.0s)
--- Generating done (0.6s)
+-- Configuring done (0.9s)
+-- Generating done (0.1s)
 -- Build files have been written to: C:/Users/duytu/CLionProjects/FLAPPY_BIRD/cmake-build-debug

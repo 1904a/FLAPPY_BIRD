@@ -10,7 +10,9 @@ set(CMAKE_LIBRARY_PATH "C:/msys64/ucrt64/lib")
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
 
-add_executable(FLAPPY_BIRD main.cpp)
+add_executable(FLAPPY_BIRD main.cpp
+        game.cpp
+        game.h)
 
 target_include_directories(FLAPPY_BIRD PRIVATE ${SDL2_INCLUDE_DIRS})
 target_link_libraries(FLAPPY_BIRD ${SDL2_LIBRARIES} SDL2_image SDL2_ttf SDL2_mixer)

@@ -66,7 +66,24 @@ build CMakeFiles/FLAPPY_BIRD.dir/main.cpp.obj: CXX_COMPILER__FLAPPY_BIRD_scanned
   OBJECT_FILE_DIR = CMakeFiles\FLAPPY_BIRD.dir
   dyndep = CMakeFiles/FLAPPY_BIRD.dir/CXX.dd
 
-build CMakeFiles/FLAPPY_BIRD.dir/CXX.dd | C$:/Users/duytu/CLionProjects/FLAPPY_BIRD/cmake-build-debug/CMakeFiles/FLAPPY_BIRD.dir/CXXModules.json CMakeFiles/FLAPPY_BIRD.dir/main.cpp.obj.modmap: CXX_DYNDEP__FLAPPY_BIRD_Debug CMakeFiles/FLAPPY_BIRD.dir/main.cpp.obj.ddi | C$:/Users/duytu/CLionProjects/FLAPPY_BIRD/cmake-build-debug/CMakeFiles/FLAPPY_BIRD.dir/CXXDependInfo.json
+build CMakeFiles/FLAPPY_BIRD.dir/game.cpp.obj.ddi: CXX_SCAN__FLAPPY_BIRD_Debug C$:/Users/duytu/CLionProjects/FLAPPY_BIRD/game.cpp || cmake_object_order_depends_target_FLAPPY_BIRD
+  DEP_FILE = CMakeFiles\FLAPPY_BIRD.dir\game.cpp.obj.ddi.d
+  DYNDEP_INTERMEDIATE_FILE = CMakeFiles\FLAPPY_BIRD.dir\game.cpp.obj.ddi
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -isystem C:/msys64/ucrt64/include/SDL2
+  OBJ_FILE = CMakeFiles\FLAPPY_BIRD.dir\game.cpp.obj
+  PREPROCESSED_OUTPUT_FILE = CMakeFiles\FLAPPY_BIRD.dir\game.cpp.obj.ddi.i
+
+build CMakeFiles/FLAPPY_BIRD.dir/game.cpp.obj: CXX_COMPILER__FLAPPY_BIRD_scanned_Debug C$:/Users/duytu/CLionProjects/FLAPPY_BIRD/game.cpp | CMakeFiles/FLAPPY_BIRD.dir/game.cpp.obj.modmap || cmake_object_order_depends_target_FLAPPY_BIRD CMakeFiles/FLAPPY_BIRD.dir/CXX.dd
+  DEP_FILE = CMakeFiles\FLAPPY_BIRD.dir\game.cpp.obj.d
+  DYNDEP_MODULE_MAP_FILE = CMakeFiles\FLAPPY_BIRD.dir\game.cpp.obj.modmap
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -isystem C:/msys64/ucrt64/include/SDL2
+  OBJECT_DIR = CMakeFiles\FLAPPY_BIRD.dir
+  OBJECT_FILE_DIR = CMakeFiles\FLAPPY_BIRD.dir
+  dyndep = CMakeFiles/FLAPPY_BIRD.dir/CXX.dd
+
+build CMakeFiles/FLAPPY_BIRD.dir/CXX.dd | C$:/Users/duytu/CLionProjects/FLAPPY_BIRD/cmake-build-debug/CMakeFiles/FLAPPY_BIRD.dir/CXXModules.json CMakeFiles/FLAPPY_BIRD.dir/main.cpp.obj.modmap CMakeFiles/FLAPPY_BIRD.dir/game.cpp.obj.modmap: CXX_DYNDEP__FLAPPY_BIRD_Debug CMakeFiles/FLAPPY_BIRD.dir/main.cpp.obj.ddi CMakeFiles/FLAPPY_BIRD.dir/game.cpp.obj.ddi | C$:/Users/duytu/CLionProjects/FLAPPY_BIRD/cmake-build-debug/CMakeFiles/FLAPPY_BIRD.dir/CXXDependInfo.json
 
 
 # =============================================================================
@@ -76,7 +93,7 @@ build CMakeFiles/FLAPPY_BIRD.dir/CXX.dd | C$:/Users/duytu/CLionProjects/FLAPPY_B
 #############################################
 # Link the executable FLAPPY_BIRD.exe
 
-build FLAPPY_BIRD.exe: CXX_EXECUTABLE_LINKER__FLAPPY_BIRD_Debug CMakeFiles/FLAPPY_BIRD.dir/main.cpp.obj | C$:/msys64/ucrt64/lib/libSDL2main.a C$:/msys64/ucrt64/lib/libSDL2.dll.a
+build FLAPPY_BIRD.exe: CXX_EXECUTABLE_LINKER__FLAPPY_BIRD_Debug CMakeFiles/FLAPPY_BIRD.dir/main.cpp.obj CMakeFiles/FLAPPY_BIRD.dir/game.cpp.obj | C$:/msys64/ucrt64/lib/libSDL2main.a C$:/msys64/ucrt64/lib/libSDL2.dll.a
   FLAGS = -g
   LINK_LIBRARIES = C:/msys64/ucrt64/lib/libSDL2main.a  C:/msys64/ucrt64/lib/libSDL2.dll.a  -lSDL2_image  -lSDL2_ttf  -lSDL2_mixer  -lshell32  -Wl,--undefined=WinMain  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\FLAPPY_BIRD.dir
