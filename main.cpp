@@ -47,7 +47,7 @@ int birdVelocity = 0;
 
 bool isRunning = true;
 bool gameOver = false;
-bool gameStarted = false; // Ban đầu trò chơi chưa bắt đầu
+bool gameStarted = false;
 bool showMenu = true;
 bool showGameOverScreen = false;
 
@@ -80,17 +80,15 @@ void init() {
         cerr << "Failed to load font: " << TTF_GetError() << endl;
     }
 
-    // Khởi tạo SDL_mixer
+
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
 
-
-    // Load hiệu ứng âm thanh (Mix_Chunk dùng cho âm thanh ngắn)
     soundJump = Mix_LoadWAV("jump.wav");
     soundHit = Mix_LoadWAV("hit.wav");
     soundPoint = Mix_LoadWAV("point.wav");
     soundGameOver = Mix_LoadWAV("gameover.wav");
 
-    // Kiểm tra lỗi
+
     if ( !soundJump || !soundHit || !soundPoint || !soundGameOver) {
         cerr << "Failed to load sound: " << Mix_GetError() << endl;
     }
@@ -115,7 +113,7 @@ void handleInput() {
         }
 
         if (showGameOverScreen && event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE) {
-            // Reset game
+
             gameOver = false;
             showGameOverScreen = false;
             gameStarted = false;
@@ -131,17 +129,17 @@ void renderScore() {
     SDL_Color white = {255, 255, 255, 255}; // Màu trắng
     string scoreText = "Score: " + to_string(score);
 
-    // Tạo surface và texture từ font
+
     SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, scoreText.c_str(), white);
     SDL_Texture* message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
 
-    // Xác định vị trí hiển thị ở góc trên phải
+
     SDL_Rect messageRect = {SCREEN_WIDTH - 150, 20, 130, 30};
 
-    // Vẽ điểm số lên màn hình
+
     SDL_RenderCopy(renderer, message, NULL, &messageRect);
 
-    // Giải phóng bộ nhớ
+
     SDL_FreeSurface(surfaceMessage);
     SDL_DestroyTexture(message);
 }
@@ -195,7 +193,7 @@ void render() {
     if (showMenu) {
         SDL_RenderCopy(renderer, playButtonTexture, NULL, &playButton);
     } else if (showGameOverScreen) {
-        // Chỉ hiển thị ảnh "GAME OVER"
+
         SDL_Rect gameOverRect = {SCREEN_WIDTH / 2 - 150, SCREEN_HEIGHT / 3, 300, 100};
         SDL_RenderCopy(renderer, gameOverTexture, NULL, &gameOverRect);
     } else {
@@ -227,8 +225,8 @@ void cleanUp() {
     Mix_FreeChunk(soundPoint);
     Mix_FreeChunk(soundGameOver);
     Mix_CloseAudio();
-    TTF_CloseFont(font); // Giải phóng bộ nhớ font
-    TTF_Quit(); // Tắt SDL_ttf
+    TTF_CloseFont(font);
+    TTF_Quit();
     IMG_Quit();
     SDL_Quit();
 }
