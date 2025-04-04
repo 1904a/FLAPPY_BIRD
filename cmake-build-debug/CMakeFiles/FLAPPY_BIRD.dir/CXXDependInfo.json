@@ -21,11 +21,6 @@
 	"module-dir" : "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/cmake-build-debug/CMakeFiles/FLAPPY_BIRD.dir",
 	"sources" : 
 	{
-		"CMakeFiles/FLAPPY_BIRD.dir/game.cpp.obj" : 
-		{
-			"language" : "CXX",
-			"source" : "C:/Users/duytu/CLionProjects/FLAPPY_BIRD/game.cpp"
-		},
 		"CMakeFiles/FLAPPY_BIRD.dir/main.cpp.obj" : 
 		{
 			"language" : "CXX",
