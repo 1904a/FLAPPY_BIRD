@@ -53,10 +53,6 @@ bool showGameOverScreen = false;
 
 SDL_Texture* loadTexture(const char* path) {
     SDL_Surface* surface = IMG_Load(path);
-    if (!surface) {
-        cerr << "Failed to load image: " << path << " " << IMG_GetError() << endl;
-        return nullptr;
-    }
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_FreeSurface(surface);
     return texture;
@@ -65,7 +61,7 @@ SDL_Texture* loadTexture(const char* path) {
 void init() {
     SDL_Init(SDL_INIT_VIDEO);
     IMG_Init(IMG_INIT_PNG);
-    TTF_Init(); // Khởi tạo SDL_ttf
+    TTF_Init();
     window = SDL_CreateWindow("Flappy Bird", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     background = loadTexture("background.png");
@@ -76,9 +72,7 @@ void init() {
     gameOverTexture = loadTexture("GAME_OVER.png");
 
     font = TTF_OpenFont("Roboto_Condensed-Regular.ttf", 24);
-    if (!font) {
-        cerr << "Failed to load font: " << TTF_GetError() << endl;
-    }
+
 
 
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
@@ -87,11 +81,6 @@ void init() {
     soundHit = Mix_LoadWAV("hit.wav");
     soundPoint = Mix_LoadWAV("point.wav");
     soundGameOver = Mix_LoadWAV("gameover.wav");
-
-
-    if ( !soundJump || !soundHit || !soundPoint || !soundGameOver) {
-        cerr << "Failed to load sound: " << Mix_GetError() << endl;
-    }
 
 }
 
@@ -138,8 +127,6 @@ void renderScore() {
 
 
     SDL_RenderCopy(renderer, message, NULL, &messageRect);
-
-
     SDL_FreeSurface(surfaceMessage);
     SDL_DestroyTexture(message);
 }
@@ -154,19 +141,23 @@ void update() {
 
     birdVelocity += GRAVITY;
     bird.y += birdVelocity;
-
+// vị trí , vân tốc chim
+    if (bird.y<0) {
+        bird.y = 0;
+        birdVelocity = 0;
+    }
     if (bird.y + bird.h >= SCREEN_HEIGHT - GROUND_HEIGHT) {
         gameOver = true;
         Mix_PlayChannel(-1, soundGameOver, 0);
     }
-
+//chim chạm đất
     for (auto& pipe : pipes) pipe.x -= PIPE_SPEED;
     if (!pipes.empty() && pipes[0].x < -PIPE_WIDTH) pipes.erase(pipes.begin());
-
+//di chuyển , xoá ống cũ
     if (pipes.empty() || pipes.back().x < SCREEN_WIDTH - 300) {
         int randomHeight = rand() % (SCREEN_HEIGHT - GROUND_HEIGHT - PIPE_GAP - 200) + 100;
         pipes.push_back({SCREEN_WIDTH, randomHeight});
-    }
+    }// chiều cao ngẫu nhiên
 
     SDL_Rect birdHitbox = {bird.x + collisionOffset, bird.y + collisionOffset, bird.w - 2 * collisionOffset, bird.h - 2 * collisionOffset};
     for (auto& pipe : pipes) {
@@ -174,13 +165,13 @@ void update() {
             pipe.scored = true;
             score++;
             Mix_PlayChannel(-1, soundPoint, 0);
-        }
+        }// tránh va chạm giả , tăng score khi qua ống
 
         if (birdHitbox.x + birdHitbox.w > pipe.x && birdHitbox.x < pipe.x + PIPE_WIDTH) {
             if (birdHitbox.y < pipe.height || birdHitbox.y + birdHitbox.h > pipe.height + PIPE_GAP) {
                 gameOver = true;
                 Mix_PlayChannel(-1, soundHit, 0);
-            }
+            } // hitbox chim dính vào ống
         }
     }
 }
@@ -192,17 +183,18 @@ void render() {
 
     if (showMenu) {
         SDL_RenderCopy(renderer, playButtonTexture, NULL, &playButton);
-    } else if (showGameOverScreen) {
-
+    }//màn hình menu
+    else if (showGameOverScreen) {
         SDL_Rect gameOverRect = {SCREEN_WIDTH / 2 - 150, SCREEN_HEIGHT / 3, 300, 100};
         SDL_RenderCopy(renderer, gameOverTexture, NULL, &gameOverRect);
-    } else {
+    }//màn hinh gameover
+    else {
         for (const auto& pipe : pipes) {
             SDL_Rect pipeTop = {pipe.x, 0, PIPE_WIDTH, pipe.height};
             SDL_Rect pipeBottom = {pipe.x, pipe.height + PIPE_GAP, PIPE_WIDTH, SCREEN_HEIGHT - pipe.height - PIPE_GAP - GROUND_HEIGHT};
             SDL_RenderCopyEx(renderer, pipeTexture, NULL, &pipeTop, 0, NULL, SDL_FLIP_VERTICAL);
             SDL_RenderCopy(renderer, pipeTexture, NULL, &pipeBottom);
-        }
+        }// vẽ ống trên dưới
 
         SDL_RenderCopy(renderer, birdTexture, NULL, &bird);
         SDL_Rect groundRect = {0, SCREEN_HEIGHT - 140, SCREEN_WIDTH, 140};
