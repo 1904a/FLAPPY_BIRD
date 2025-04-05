@@ -4,6 +4,7 @@
 #include <SDL2/SDL_mixer.h>
 #include <vector>
 #include <iostream>
+#include<fstream>
 using namespace std;
 
 const int SCREEN_WIDTH = 800;
@@ -34,6 +35,7 @@ Mix_Chunk* soundGameOver = nullptr;
 
 int collisionOffset = 15;
 int score = 0;
+int highScore = 0;
 
 struct Pipe {
     int x, height;
@@ -56,6 +58,25 @@ SDL_Texture* loadTexture(const char* path) {
     SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_FreeSurface(surface);
     return texture;
+}
+// Hàm lưu điểm cao vào file
+void saveHighScore(int score) {
+    ofstream file("highscore.txt");
+    if (file.is_open()) {
+        file << score;
+        file.close();
+    }
+}
+
+// Hàm tải điểm cao từ file
+int loadHighScore() {
+    ifstream file("highscore.txt");
+    int highScore = 0;
+    if (file.is_open()) {
+        file >> highScore;
+        file.close();
+    }
+    return highScore;
 }
 
 void init() {
@@ -81,6 +102,8 @@ void init() {
     soundHit = Mix_LoadWAV("hit.wav");
     soundPoint = Mix_LoadWAV("point.wav");
     soundGameOver = Mix_LoadWAV("gameover.wav");
+
+    int highScore = loadHighScore();  // Tải điểm cao từ file khi game bắt đầu
 
 }
 
@@ -135,6 +158,10 @@ void update() {
     if (showMenu) return;
     if (!gameStarted) return;
     if (gameOver) {
+        if (score > highScore) {
+            highScore = score;  // Cập nhật điểm cao nhất nếu điểm hiện tại lớn hơn
+            saveHighScore(highScore);  // Lưu điểm cao vào file
+        }
         showGameOverScreen = true;
         return;
     }
@@ -176,6 +203,20 @@ void update() {
     }
 }
 
+void renderHighScore() {
+    SDL_Color white = {255, 255, 255, 255};  // Màu trắng
+    string highScoreText = "High Score: " + to_string(highScore);
+
+    SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, highScoreText.c_str(), white);
+    SDL_Texture* message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
+
+    SDL_Rect messageRect = {SCREEN_WIDTH - 150, 50, 130, 30};
+    SDL_RenderCopy(renderer, message, NULL, &messageRect);
+
+    SDL_FreeSurface(surfaceMessage);
+    SDL_DestroyTexture(message);
+}
+
 
 void render() {
     SDL_RenderClear(renderer);
@@ -201,6 +242,7 @@ void render() {
         SDL_RenderCopy(renderer, groundTexture, NULL, &groundRect);
     }
     renderScore();
+    renderHighScore();
     SDL_RenderPresent(renderer);
 }
 
