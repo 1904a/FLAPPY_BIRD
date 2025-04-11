@@ -43,9 +43,9 @@ struct Pipe {
 };
 
 vector<Pipe> pipes;
-SDL_Rect bird = {100, SCREEN_HEIGHT / 2, 50, 50};
-SDL_Rect playButton = {SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT / 2 - 25, 100, 50};
-int birdVelocity = 0;
+SDL_Rect bird = {100, SCREEN_HEIGHT / 2, 70,70};//vị tris , kích thước chim
+SDL_Rect playButton = {SCREEN_WIDTH / 2 - 50, SCREEN_HEIGHT / 2 - 25, 100, 50};//vị trí,kích thước nút play
+int birdVelocity = 0;//vận toocs
 
 bool isRunning = true;
 bool gameOver = false;
@@ -92,7 +92,7 @@ void init() {
     playButtonTexture = loadTexture("play_button.jpg");
     gameOverTexture = loadTexture("GAME_OVER.png");
 
-    font = TTF_OpenFont("Roboto_Condensed-Regular.ttf", 24);
+    font = TTF_OpenFont("PressStart2P-Regular.ttf", 24);
 
 
 
@@ -120,7 +120,7 @@ void handleInput() {
         }
 
         if (!showMenu && !showGameOverScreen && event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_SPACE && !gameOver) {
-            birdVelocity = JUMP_STRENGTH;
+            birdVelocity = JUMP_STRENGTH;//Vt=sức nhảy
             Mix_PlayChannel(-1, soundJump, 0);
         }
 
@@ -210,12 +210,13 @@ void renderHighScore() {
     SDL_Surface* surfaceMessage = TTF_RenderText_Solid(font, highScoreText.c_str(), white);
     SDL_Texture* message = SDL_CreateTextureFromSurface(renderer, surfaceMessage);
 
-    SDL_Rect messageRect = {SCREEN_WIDTH - 150, 50, 130, 30};
-    SDL_RenderCopy(renderer, message, NULL, &messageRect);
+    SDL_Rect messageRect = {SCREEN_WIDTH - 300, 20, 150, 30};
 
+    SDL_RenderCopy(renderer, message, NULL, &messageRect);
     SDL_FreeSurface(surfaceMessage);
     SDL_DestroyTexture(message);
 }
+
 
 
 void render() {
@@ -276,6 +277,5 @@ int main(int argc, char* argv[]) {
         SDL_Delay(16);
     }
     cleanUp();
-    cout<<"your score "<<score<<endl;
     return 0;
 }
